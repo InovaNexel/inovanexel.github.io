@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --page-bg: #f8fafc;
+  --navy: #03152f;
+  --navy-mid: #08244a;
+  --navy-light: #0b2e5a;
+  --accent: #8fd18f;
+  --accent-hover: #7bc47d;
+  --text-muted: #d9e5f4;
+  --card-border: #e5e7eb;
+  --max-width: 1400px;
+  --radius-global: 20px;
+  --radius-card: 16px;
+  --font-sans: var(--font-geist-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--navy);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.container-site {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .container-site {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
