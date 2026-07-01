@@ -70,7 +70,7 @@ export function Hero() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="text-[clamp(2.25rem,5vw,4.5rem)] font-bold leading-[1.08] tracking-tight text-white"
           >
-            Inovação que transforma o futuro público.
+            Inovação que transforma a gestão pública.
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 24 }}
@@ -78,7 +78,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
             className="mt-6 max-w-[450px] text-base leading-relaxed text-[#D9E5F4] sm:text-lg"
           >
-            Soluções inteligentes para governos mais eficientes, transparentes e
+            Soluções tecnológicas para governos inteligentes, eficientes e
             conectados com a sociedade.
           </motion.p>
           <motion.div

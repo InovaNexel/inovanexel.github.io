@@ -7,7 +7,7 @@ import { NoticiasSection } from "@/components/NoticiasSection";
 import { Partners } from "@/components/Partners";
 import { Projects } from "@/components/Projects";
 import { Solutions } from "@/components/Solutions";
-import { Stats } from "@/components/Stats";
+//import { Stats } from "@/components/Stats";
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       <main className="bg-[#F8FAFC]">
         <Hero />
         <Solutions />
-        <Stats />
+        {/*<Stats />*/}
         <Projects />
         <Partners />
         <NoticiasSection />

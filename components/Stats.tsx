@@ -1,8 +1,8 @@
-<!---/*
+/*
 
 import { ScrollReveal } from "./ScrollReveal";
 
-##
+
 const stats = [
   { value: "+120", label: "Projetos realizados" },
   { value: "+80", label: "Órgãos atendidos" },

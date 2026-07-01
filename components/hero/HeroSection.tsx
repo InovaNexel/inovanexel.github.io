@@ -12,11 +12,10 @@ export function HeroSection() {
       <div className="relative z-10 mx-auto grid max-w-7xl flex-1 items-center gap-12 px-6 pb-16 pt-8 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-24 lg:pt-4">
         <div className="flex flex-col justify-center lg:py-12">
           <h1 className="hero-animate-fade-up hero-delay-400 max-w-xl text-4xl font-bold leading-[1.1] tracking-tight text-white opacity-0 sm:text-5xl lg:text-[3.25rem] xl:text-6xl">
-            Inovação que transforma o futuro público.
+            Inovação que transforma a gestão pública.
           </h1>
           <p className="hero-animate-fade-up hero-delay-550 mt-6 max-w-lg text-base leading-relaxed text-slate-300 opacity-0 sm:text-lg">
-            Soluções inteligentes para governos mais eficientes, transparentes e
-            conectados com a sociedade.
+          Soluções tecnológicas para governos inteligentes, eficientes e conectados com a sociedade.
           </p>
           <div className="hero-animate-fade-up hero-delay-700 mt-10 flex flex-col gap-4 opacity-0 sm:flex-row sm:items-center">
             <a

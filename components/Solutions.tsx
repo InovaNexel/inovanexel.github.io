@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ScrollReveal } from "./ScrollReveal";
 
 const solutions = [
@@ -99,17 +100,15 @@ export function Solutions() {
           ))}
         </ul>
 
-        {/* O botão foi comentado corretamente aqui dentro do JSX */}
-        {/* <ScrollReveal className="mt-10" delay={0.2}>
-          <a
-            href="#solucoes"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#03152F] transition-colors hover:text-[#08244A]"
+        <ScrollReveal className="mt-12 flex justify-center" delay={0.2}>
+          <Link
+            href="/sigel"
+            className="inline-flex items-center gap-2 rounded-[10px] bg-[#8FD18F] px-7 py-3.5 text-sm font-semibold text-[#03152F] transition-colors hover:bg-[#7bc47d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8FD18F]"
           >
             Ver todas as soluções
             <span aria-hidden>→</span>
-          </a>
-        </ScrollReveal> 
-        */}
+          </Link>
+        </ScrollReveal>
       </div>
     </section>
   );
