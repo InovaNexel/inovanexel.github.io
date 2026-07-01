@@ -2,11 +2,7 @@ import { ScrollReveal } from "./ScrollReveal";
 
 const partners = [
   "SEBRAE",
-  "BID",
-  "Finep",
-  "ABEP",
   "Google for Startups",
-  "AWS",
 ];
 
 export function Partners() {
