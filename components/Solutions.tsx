@@ -99,7 +99,8 @@ export function Solutions() {
           ))}
         </ul>
 
-        <ScrollReveal className="mt-10" delay={0.2}>
+        {/* O botão foi comentado corretamente aqui dentro do JSX */}
+        {/* <ScrollReveal className="mt-10" delay={0.2}>
           <a
             href="#solucoes"
             className="inline-flex items-center gap-2 text-sm font-semibold text-[#03152F] transition-colors hover:text-[#08244A]"
@@ -107,7 +108,8 @@ export function Solutions() {
             Ver todas as soluções
             <span aria-hidden>→</span>
           </a>
-        </ScrollReveal>
+        </ScrollReveal> 
+        */}
       </div>
     </section>
   );
