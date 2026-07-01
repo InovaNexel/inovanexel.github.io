@@ -38,7 +38,7 @@ const team: TeamMember[] = [
     // Card disponível: adicione o nome, o cargo, a descrição e a foto abaixo.
     name: "Arthur Leite",
     role: "Colaborador de T.I. Desenvolvedor web",
-    description: "Colaborador de T.I. Desenvolvedor web",
+    description: "",
     image: "arthur perfil.png", 
   },
 ];
