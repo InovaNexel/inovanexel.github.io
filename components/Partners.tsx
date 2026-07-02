@@ -3,6 +3,7 @@ import { ScrollReveal } from "./ScrollReveal";
 const partners = [
   "SEBRAE",
   "Google for Startups",
+  "Natty App"
 ];
 
 export function Partners() {
