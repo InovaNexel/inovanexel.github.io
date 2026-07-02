@@ -6,10 +6,10 @@ import { DifferentiatorsSection } from "@/components/quem-somos/DifferentiatorsS
 import { MvvSection } from "@/components/quem-somos/MvvSection";
 import { TeamSection } from "@/components/quem-somos/TeamSection";
 import type { Metadata } from "next";
-
+ 
 export const metadata: Metadata = {
-  title: "Quem Somos | Inova Nexel",
-  description:
+ title: "Quem Somos | Inova Nexel",
+ description:
     "Conheça a Inova Nexel, empresa especializada em inovação, transformação digital, tecnologia e soluções estratégicas para gerar impacto positivo na sociedade.",
 };
 
@@ -27,4 +27,4 @@ export default function QuemSomosPage() {
       <Footer />
     </>
   );
-}
+}  

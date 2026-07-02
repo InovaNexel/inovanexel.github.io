@@ -37,11 +37,6 @@ export function Logo({
       aria-label="Inova Nexel — Início"
     >
       <LogoMark size={iconSize} />
-      <span
-        className={`text-[15px] font-bold tracking-[0.15em] ${textClassName}`}
-      >
-        INOVA NEXEL
-      </span>
     </NavLink>
   );
 }
