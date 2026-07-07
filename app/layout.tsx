@@ -16,10 +16,6 @@ export const metadata: Metadata = {
   title: "Inova Nexel | GovTech",
   description:
     "Soluções inteligentes para governos mais eficientes, transparentes e conectados com a sociedade.",
-  icons: {
-    icon: "/logo-inova-nexel.png",
-    apple: "/logo-inova-nexel.png",
-  },
 };
 
 export default function RootLayout({
