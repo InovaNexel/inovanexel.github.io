@@ -11,28 +11,28 @@ type TeamMember = {
 const team: TeamMember[] = [
   {
     name: "Pedro Lima",
-    role: "Sócio fundador - Diretor de Inovação. Especialista em Gestão, inovação e transformação tecnológica; Experiência em inovação no ecossistema local de Rondônia; Advogado atuante em Direito da inovação",
-    description: "Especialista em Gestão, inovação e transformação tecnológica; Experiência em inovação no ecossistema local de Rondônia; Advogado atuante em Direito da inovação",
-    image:
-      "pedro perfil.png",
+    role: "Sócio fundador - Diretor de Inovação. Especialista em inovação e transformação tecnológica",
+    image: "pedro perfil.png", // Corrigido aqui
   },
   {
     name: "Valter Gonçalves",
     role: "Sócio Fundador - Diretor de Operações",
-    image:
-      "valter perfil.png",
+    image: "valter perfil.png",
   },
   {
     name: "Paulo Emanoel",
     role: "Sócio Fundador Administrador - Diretor Financeiro e Administrativo",
-    image:
-      "paulo perfil.png",
+    image: "paulo perfil.png",
   },
   {
     name: "Daniel Carvalho",
-    role: "Gestora de Projetos Estratégicos",
-    image:
-      "daniel perfil.png"
+    role: "Sócio Fundador - Diretor de Tecnologia",
+    image: "daniel perfil.png"
+  },
+  {
+    name: "Vitor de Melo ",
+    role: "Coordenador de desenvolvimento e T.I",
+    image: "vitor perfil.png"
   },
   {
     // Card disponível: adicione o nome, o cargo, a descrição e a foto abaixo.
