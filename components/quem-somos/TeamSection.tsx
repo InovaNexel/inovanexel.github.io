@@ -11,7 +11,7 @@ type TeamMember = {
 const team: TeamMember[] = [
   {
     name: "Pedro Lima",
-    role: "Sócio fundador - Diretor de Inovação. Especialista em inovação e transformação tecnológica",
+    role: "Sócio fundador - Diretor de Inovação. Especialista em inovação",
     image: "pedro perfil.png", // Corrigido aqui
   },
   {
