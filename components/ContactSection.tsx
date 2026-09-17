@@ -38,9 +38,9 @@ const contactCards = [
   {
     title: "WhatsApp",
     description: "Converse rapidamente com nossa equipe de atendimento.",
-    info: "(69) 99204-7492",
+    info: "(69) 92000-3736",
     buttonLabel: "Conversar Agora",
-    href: "https://wa.me/69992047492",
+    href: "https://wa.me/5569920003736",
     external: true,
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

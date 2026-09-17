@@ -4,10 +4,10 @@ import { NavLink } from "./NavLink";
 import type { ReactNode } from "react";
 
 const footerSolucoesLinks = [
-  { label: "GovTech", href: "/#solucoes" },
+  { label: "Sistemas", href: "/sistemas" },
   { label: "Transformação Digital", href: "/#solucoes" },
   { label: "Planejamento", href: "/#solucoes" },
-  { label: "Capacitação", href: "/#solucoes" },
+  { label: "Consultoria", href: "/#solucoes" },
 ];
 
 const footerLinks = {

@@ -1,0 +1,11 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+
+  // O site e um Next.js com `output: "export"`.
+  // O Live Server precisa servir a pasta do build estatico (`out/`),
+  // porque o HTML referencia os assets por caminho absoluto (/_next/...).
+  // Sem isso, /_next/... cai na raiz do projeto e o CSS volta 404.
+  "liveServer.settings.root": "/out"
+}

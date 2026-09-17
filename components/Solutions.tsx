@@ -1,11 +1,21 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ScrollReveal } from "./ScrollReveal";
 
-const solutions = [
+type Solution = {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  /** Quando presente, o card vira link para a página correspondente. */
+  href?: string;
+};
+
+const solutions: Solution[] = [
   {
-    title: "GovTech",
+    title: "Sistemas",
     description:
-      "Plataformas e ecossistemas digitais para modernizar a gestão pública com tecnologia de ponta.",
+      "Soluções completas de sistemas próprios, para governos e prefeituras, modernizando a gestão pública com tecnologia de ponta.",
+    href: "/sistemas",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
         <rect x="3" y="4" width="18" height="14" rx="2" stroke="#8FD18F" strokeWidth="1.5" />
@@ -47,9 +57,9 @@ const solutions = [
     ),
   },
   {
-    title: "Pesquisa & Inovação",
+    title: "Consultoria",
     description:
-      "Estudos aplicados, prototipagem e experimentação para soluções baseadas em evidências.",
+      "Consultoria estratégica para inovação e gestão pública com metodologia própria.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
         <path d="M9 18l-4-4 4-4M15 6l4 4-4 4" stroke="#8FD18F" strokeWidth="1.5" strokeLinecap="round" />
@@ -85,30 +95,46 @@ export function Solutions() {
         </ScrollReveal>
 
         <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {solutions.map((item, i) => (
-            <ScrollReveal key={item.title} delay={i * 0.06}>
-              <li>
-                <article className="group h-full rounded-[16px] border border-[#E5E7EB] bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <div className="mb-5">{item.icon}</div>
-                  <h3 className="text-lg font-bold text-[#03152F]">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[#03152F]/60">
-                    {item.description}
-                  </p>
-                </article>
-              </li>
-            </ScrollReveal>
-          ))}
-        </ul>
+          {solutions.map((item, i) => {
+            const card = (
+              <>
+                <div className="mb-5">{item.icon}</div>
+                <h3 className="text-lg font-bold text-[#03152F]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#03152F]/60">
+                  {item.description}
+                </p>
+                {item.href && (
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#03152F]">
+                    Ver sistemas
+                    <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                      →
+                    </span>
+                  </span>
+                )}
+              </>
+            );
 
-        <ScrollReveal className="mt-12 flex justify-center" delay={0.2}>
-          <Link
-            href="/sigel"
-            className="inline-flex items-center gap-2 rounded-[10px] bg-[#8FD18F] px-7 py-3.5 text-sm font-semibold text-[#03152F] transition-colors hover:bg-[#7bc47d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8FD18F]"
-          >
-            Ver todas as soluções
-            <span aria-hidden>→</span>
-          </Link>
-        </ScrollReveal>
+            const cardClass =
+              "group flex h-full flex-col rounded-[16px] border border-[#E5E7EB] bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg";
+
+            return (
+              <ScrollReveal key={item.title} delay={i * 0.06}>
+                <li className="h-full">
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className={`${cardClass} hover:border-[#8FD18F]/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8FD18F]`}
+                    >
+                      {card}
+                    </Link>
+                  ) : (
+                    <article className={cardClass}>{card}</article>
+                  )}
+                </li>
+              </ScrollReveal>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

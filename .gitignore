@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# documentos internos de briefing (repositorio publico — nao versionar)
+/ajuste do site.pdf

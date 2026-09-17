@@ -13,7 +13,7 @@ export const sectionIds = {
 export const mainNav: NavItem[] = [
   { label: "Início", href: "/#home" },
   { label: "Quem Somos", href: "/quem-somos" },
-  { label: "Soluções", href: "/#solucoes" },
+  { label: "Sistemas", href: "/sistemas" },
   { label: "Notícias", href: "/#noticias" },
   { label: "Fale Conosco", href: "/#contato" },
 ];
@@ -23,7 +23,7 @@ export const contactLabel = "Fale Conosco";
 
 export const footerEmpresaLinks: NavItem[] = [
   { label: "Quem Somos", href: "/quem-somos" },
-  { label: "Soluções", href: "/#solucoes" },
+  { label: "Sistemas", href: "/sistemas" },
   { label: "Notícias", href: "/#noticias" },
   { label: "Fale Conosco", href: "/#contato" },
 ];

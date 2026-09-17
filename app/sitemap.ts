@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${base}/`, priority: 1 },
     { url: `${base}/quem-somos`, priority: 0.8 },
+    { url: `${base}/sistemas`, priority: 0.8 },
     { url: `${base}/sigel`, priority: 0.8 },
   ];
 }

@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "SIGEL | Inova Nexel",
   description:
-    "SIGEL é a solução da Inova Nexel pronta para uso, que moderniza a gestão pública com tecnologia inteligente, integrada e segura.",
+    "Sistema de gestão de leilão para cadastro, avaliação, reavaliação, depreciação automática, loteamento e prestação de contas completo.",
 };
 
 const features = [
@@ -68,13 +68,14 @@ const features = [
     ),
   },
   {
-    title: "Foco no Cidadão",
+    title: "Solução Completa",
     description:
-      "Processos mais ágeis e transparentes que aproximam a gestão pública das necessidades da sociedade.",
+      "Solução completa de desfazimento através de leilão, doação ou descarte, com todo processo e procedimento integrados e com tecnologia.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <circle cx="12" cy="8" r="3.5" stroke="#8FD18F" strokeWidth="1.5" />
-        <path d="M5 19c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M4 7h16v13H4z" stroke="#8FD18F" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M4 7l2-3h12l2 3" stroke="#8FD18F" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M9 12l2 2 4-4" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -100,22 +101,23 @@ export default function SigelPage() {
                 SIGEL
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#D9E5F4] sm:text-lg">
-                A solução da Inova Nexel que moderniza a gestão pública com
-                tecnologia inteligente, integrada e segura — disponível hoje para
-                impulsionar governos mais eficientes e conectados com a sociedade.
+                Sistema de gestão de leilão para cadastro, avaliação, reavaliação,
+                depreciação automática, loteamento e prestação de contas completo.
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <Link
-                  href="/#contato"
+                <a
+                  href="https://sigel.inovanexel.com/login"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center rounded-[10px] bg-[#8FD18F] px-7 py-3.5 text-sm font-semibold text-[#03152F] transition-colors hover:bg-[#7bc47d]"
                 >
-                  Solicitar demonstração
-                </Link>
+                  Acesso de usuário
+                </a>
                 <Link
-                  href="/#solucoes"
+                  href="/sistemas"
                   className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
                 >
-                  Voltar às soluções
+                  Sistemas
                   <span aria-hidden>→</span>
                 </Link>
               </div>
