@@ -35,11 +35,14 @@ const team: TeamMember[] = [
     image: "vitor perfil.png"
   },
   {
-    // Card disponível: adicione o nome, o cargo, a descrição e a foto abaixo.
     name: "Arthur Leite",
     role: "Colaborador de T.I. Desenvolvedor web",
-    description: "",
-    image: "arthur perfil.png", 
+    image: "arthur perfil.webp",
+  },
+  {
+    name: "Camila Cardoso",
+    role: "Secretária Executiva",
+    image: "camila.webp",
   },
 ];
 
