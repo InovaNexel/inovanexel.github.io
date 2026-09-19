@@ -3,34 +3,107 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
+const NETWORK_NODES = [
+  [10, 20], [25, 15], [40, 25], [55, 12], [70, 22], [85, 18], [95, 35],
+  [75, 45], [55, 55], [35, 48], [20, 60], [12, 75], [30, 80], [50, 70],
+  [68, 65], [88, 55],
+] as const;
+
+// Pontos do cenário que viajam até formar o logo. Coordenadas finais no
+// espaço do PNG do logo (261 x 238), medidas a partir da própria imagem.
+const LOGO_NODES: Record<number, { x: number; y: number; d: number; color: string }> = {
+  4: { x: 27.5, y: 35.5, d: 43, color: "rgb(8, 91, 193)" },
+  5: { x: 225, y: 37, d: 42, color: "rgb(229, 229, 231)" },
+  7: { x: 144, y: 105.5, d: 23, color: "rgb(12, 32, 91)" },
+  14: { x: 95, y: 132.5, d: 28, color: "rgb(12, 32, 91)" },
+  13: { x: 29.5, y: 192, d: 44, color: "rgb(38, 174, 72)" },
+  15: { x: 226, y: 208, d: 43, color: "rgb(12, 32, 91)" },
+};
+
+const LOGO_LINES = [
+  [27, 36, 27, 192],
+  [226, 37, 226, 208],
+  [30, 28.8, 144, 107.3],
+  [144, 106.9, 224, 37.3],
+  [95.5, 130.2, 226, 217.5],
+  [29, 194.3, 95.5, 132],
+] as const;
+
 function HeroNetwork() {
-  const nodes = [
-    [10, 20], [25, 15], [40, 25], [55, 12], [70, 22], [85, 18], [95, 35],
-    [75, 45], [55, 55], [35, 48], [20, 60], [12, 75], [30, 80], [50, 70],
-    [68, 65], [88, 55],
-  ];
+  const nodes = NETWORK_NODES;
   return (
-    <svg className="absolute inset-0 h-full w-full opacity-60" aria-hidden>
-      {nodes.map(([x1, y1], i) => {
-        if (i === 0) return null;
-        const [x0, y0] = nodes[i - 1]!;
-        return (
-          <line
-            key={`l-${i}`}
-            x1={`${x0}%`}
-            y1={`${y0}%`}
-            x2={`${x1}%`}
-            y2={`${y1}%`}
-            stroke="#60A5FA"
-            strokeWidth="0.5"
-            strokeOpacity="0.35"
+    <div className="hero-logo absolute inset-0" aria-hidden>
+      <svg className="absolute inset-0 h-full w-full opacity-60">
+        {nodes.map(([x1, y1], i) => {
+          if (i === 0) return null;
+          const [x0, y0] = nodes[i - 1]!;
+          const moving = i in LOGO_NODES || i - 1 in LOGO_NODES;
+          return (
+            <line
+              key={`l-${i}`}
+              className={moving ? "hero-net-line--fade" : undefined}
+              x1={`${x0}%`}
+              y1={`${y0}%`}
+              x2={`${x1}%`}
+              y2={`${y1}%`}
+              stroke="#60A5FA"
+              strokeWidth="0.5"
+              strokeOpacity="0.35"
+            />
+          );
+        })}
+      </svg>
+
+      <div className="hero-logo__box hero-logo__glow" />
+
+      {nodes.map(([cx, cy], i) =>
+        i in LOGO_NODES ? null : (
+          <span
+            key={`n-${i}`}
+            className="hero-dot"
+            style={{ "--x0": `${cx}%`, "--y0": `${cy}%` } as React.CSSProperties}
           />
-        );
-      })}
-      {nodes.map(([cx, cy], i) => (
-        <circle key={`n-${i}`} cx={`${cx}%`} cy={`${cy}%`} r="2.5" fill="#7DD3FC" fillOpacity="0.7" />
-      ))}
-    </svg>
+        ),
+      )}
+
+      {/* Barras e pontos do logo num único grupo: o brilho contorna a peça inteira. */}
+      <div className="hero-logo__piece absolute inset-0">
+        <svg className="hero-logo__box hero-logo__lines" viewBox="0 0 261 238">
+          {LOGO_LINES.map(([x1, y1, x2, y2], i) => (
+            <line
+              key={i}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              pathLength={1}
+              stroke="rgb(12, 32, 91)"
+              strokeWidth={15}
+            />
+          ))}
+        </svg>
+
+        {Object.entries(LOGO_NODES).map(([i, target]) => {
+          const [cx, cy] = nodes[Number(i)]!;
+          return (
+            <span
+              key={`n-${i}`}
+              className="hero-dot hero-dot--move"
+              style={
+                {
+                  "--x0": `${cx}%`,
+                  "--y0": `${cy}%`,
+                  "--fx": target.x,
+                  "--fy": target.y,
+                  "--fd": target.d,
+                  "--fc": target.color,
+                } as React.CSSProperties
+              }
+            />
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -56,11 +129,11 @@ export function Hero() {
         className="absolute inset-0 bg-gradient-to-r from-[#03152F]/95 via-[#03152F]/75 to-[#03152F]/40"
         aria-hidden
       />
-      <HeroNetwork />
       <div
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,rgba(59,130,246,0.15),transparent_55%)]"
         aria-hidden
       />
+      <HeroNetwork />
 
       <div className="container-site relative z-10 flex h-full items-center pt-[90px]">
         <div className="max-w-[640px]">
