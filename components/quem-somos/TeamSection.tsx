@@ -39,11 +39,6 @@ const team: TeamMember[] = [
     role: "Colaborador de T.I. Desenvolvedor web",
     image: "arthur perfil.webp",
   },
-  {
-    name: "Camila Cardoso",
-    role: "Secretária Executiva",
-    image: "camila.webp",
-  },
 ];
 
 export function TeamSection() {
