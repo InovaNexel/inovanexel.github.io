@@ -53,6 +53,12 @@ body {
   --u: calc(var(--w) / 261);
   --cx: 77%;
   --cy: 56%;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Mola (bounce 0.2) amostrada em linear(): assenta com um leve passo além do alvo. */
+  --ease-spring: linear(0, 0.0299, 0.1039, 0.2026, 0.312, 0.4225, 0.5273, 0.6227, 0.7064, 0.7779, 0.8372, 0.8854, 0.9234, 0.9527, 0.9745, 0.9903, 1.0013, 1.0084, 1.0126, 1.0146, 1.0152, 1.0147, 1.0135, 1.012, 1.0103, 1.0087, 1.0071, 1.0056, 1.0044, 1.0033, 1.0024, 1.0017, 1.0011, 1.0007, 1.0004, 1.0001, 1);
+  /* Vai e volta (sen²): 0 → 1 → 0, velocidade nula nas pontas. */
+  --ease-swing: linear(0, 0.0599, 0.174, 0.3144, 0.4639, 0.6094, 0.7405, 0.8495, 0.9308, 0.9812, 0.9999, 0.9875, 0.9464, 0.8805, 0.7946, 0.6939, 0.5845, 0.472, 0.3623, 0.2604, 0.171, 0.0979, 0.044, 0.011, 0);
   pointer-events: none;
 }
 
@@ -71,6 +77,20 @@ body {
   border-radius: 9999px;
   background: rgba(125, 211, 252, 0.42);
   transform: translate(-50%, -50%);
+}
+
+/* Camada do tamanho da cena: X anima em `translate`, Y em `transform`,
+   cada eixo com seu atraso — a defasagem entre eles curva a trajetória. */
+.hero-fly {
+  position: absolute;
+  inset: 0;
+  translate: var(--x0) 0;
+  transform: translateY(var(--y0));
+}
+
+.hero-fly .hero-dot {
+  left: 0;
+  top: 0;
 }
 
 .hero-logo__box {
@@ -103,39 +123,123 @@ body {
   stroke-dashoffset: 1;
 }
 
+/* Nome da marca logo abaixo do logo formado */
+.hero-logo__wordmark {
+  position: absolute;
+  left: var(--cx);
+  top: calc(var(--cy) + var(--w) * 119 / 261 + var(--w) * 0.08);
+  translate: -50% 0;
+  display: none;
+  white-space: nowrap;
+  /* largura do texto = largura do símbolo */
+  font-size: calc(var(--w) * 0.112);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  /* compensa o tracking após a última letra, mantendo o texto centrado no símbolo */
+  padding-left: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #fff;
+}
+
+.hero-logo__wordmark span {
+  display: inline-block;
+  opacity: 0;
+}
+
 @media (min-width: 1024px) {
   .hero-logo__box {
     display: block;
   }
 
+  /* Cada ponto parte em --t; o eixo que segue atrasa --lag, curvando o voo. */
+  .hero-fly {
+    animation:
+      hero-fly-x 1.5s var(--ease-spring) calc(var(--t) + var(--lag-x)) both,
+      hero-fly-y 1.5s var(--ease-spring) calc(var(--t) + var(--lag-y)) both;
+  }
+
   .hero-dot--move {
-    animation: hero-dot-move 3s cubic-bezier(0.65, 0, 0.35, 1) 0.9s both;
+    width: calc(var(--fd) * var(--u));
+    height: calc(var(--fd) * var(--u));
+    transform: translate(-50%, -50%) scale(calc(4.2 / var(--fd)));
+    animation:
+      hero-dot-swing 1.1s var(--ease-swing) var(--t),
+      hero-dot-grow 0.9s var(--ease-out) calc(var(--t) + 0.35s) both,
+      hero-dot-tint 0.6s ease calc(var(--t) + 0.8s) both;
   }
 
   .hero-net-line--fade {
-    animation: hero-fade-out 0.6s ease-out 0.9s both;
+    animation: hero-fade-out 0.4s ease-out 0.3s both;
   }
 
+  /* Atraso e duração de cada segmento vêm do componente (velocidade de caneta). */
   .hero-logo__lines line {
-    animation: hero-line-draw 0.8s cubic-bezier(0.33, 1, 0.68, 1) 3.5s both;
+    animation: hero-line-draw linear both;
   }
 
   .hero-logo__glow {
-    animation: hero-fade-in 1.2s ease-out 3.3s both;
+    animation: hero-fade-in 1.2s ease-out 1.5s both;
   }
 
   .hero-logo__piece {
-    animation: hero-piece-glow 1s ease-out 3.6s both;
+    animation: hero-piece-glow 1s ease-out 2.1s both;
+  }
+
+  .hero-logo__wordmark {
+    display: block;
+  }
+
+  .hero-logo__wordmark span {
+    animation: hero-wordmark-in 0.9s var(--ease-out) 2.25s both;
+  }
+
+  .hero-logo__wordmark span + span {
+    animation-delay: 2.33s;
   }
 }
 
-@keyframes hero-dot-move {
+@keyframes hero-fly-x {
   to {
-    left: calc(var(--cx) + (var(--fx) - 130.5) * var(--u));
-    top: calc(var(--cy) + (var(--fy) - 119) * var(--u));
-    width: calc(var(--fd) * var(--u));
-    height: calc(var(--fd) * var(--u));
+    translate: calc(var(--cx) + (var(--fx) - 130.5) * var(--u)) 0;
+  }
+}
+
+@keyframes hero-fly-y {
+  to {
+    transform: translateY(calc(var(--cy) + (var(--fy) - 119) * var(--u)));
+  }
+}
+
+/* Desvio perpendicular à rota, todos no mesmo sentido: os pontos entram em redemoinho. */
+@keyframes hero-dot-swing {
+  to {
+    translate: calc(var(--sx) * var(--u)) calc(var(--sy) * var(--u));
+  }
+}
+
+@keyframes hero-dot-grow {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes hero-dot-tint {
+  to {
     background: var(--fc);
+  }
+}
+
+@keyframes hero-wordmark-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
   }
 }
 
@@ -164,6 +268,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-fly,
   .hero-dot--move,
   .hero-net-line--fade,
   .hero-logo__lines line,
@@ -171,5 +276,10 @@ body {
   .hero-logo__piece {
     animation-duration: 1ms !important;
     animation-delay: 0s !important;
+  }
+
+  .hero-logo__wordmark span,
+  .hero-logo__wordmark span + span {
+    animation: hero-fade-in 0.3s ease 0s both;
   }
 }
