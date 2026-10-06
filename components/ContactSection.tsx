@@ -1,110 +1,119 @@
-"use client";
+import { site } from "@/lib/site";
+import { Icon, type IconName } from "./Icon";
+import { LogoMark } from "./Logo";
+import { Reveal } from "./Reveal";
+import { Eyebrow } from "./ui";
 
-import { motion } from "framer-motion";
-import { ScrollReveal } from "./ScrollReveal";
+type Channel = {
+  icon: IconName;
+  title: string;
+  description: string;
+  info: string;
+  href: string;
+  external: boolean;
+  primary?: boolean;
+};
 
-const contactCards = [
+const channels: Channel[] = [
   {
-    title: "Instagram",
-    description:
-      "Acompanhe novidades, conteúdos e projetos da Inova Nexel.",
-    info: "@inovanexel",
-    buttonLabel: "Ver Instagram",
-    href: "https://instagram.com/inovanexel",
-    external: true,
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    title: "E-mail",
-    description:
-      "Envie sua dúvida, proposta ou solicitação diretamente para nossa equipe.",
-    info: "inovanexel@gmail.com",
-    buttonLabel: "Enviar E-mail",
-    href: "mailto: inovanexel@gmail.com",
-    external: false,
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 7l9 6 9-6" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      </svg>
-    ),
-  },
-  {
+    icon: "whatsapp",
     title: "WhatsApp",
     description: "Converse rapidamente com nossa equipe de atendimento.",
-    info: "(69) 92000-3736",
-    buttonLabel: "Conversar Agora",
-    href: "https://wa.me/5569920003736",
+    info: site.whatsappLabel,
+    href: site.whatsappHref,
     external: true,
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.824L.057 23.448a.75.75 0 00.92.92l5.687-1.461A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.696 9.696 0 01-4.96-1.363l-.355-.212-3.679.945.973-3.58-.232-.368A9.696 9.696 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
-      </svg>
-    ),
+    primary: true,
+  },
+  {
+    icon: "mail",
+    title: "E-mail",
+    description: "Envie sua dúvida, proposta ou solicitação diretamente para nossa equipe.",
+    info: site.email,
+    href: `mailto:${site.email}`,
+    external: false,
+  },
+  {
+    icon: "instagram",
+    title: "Instagram",
+    description: "Acompanhe novidades, conteúdos e projetos da Inova Nexel.",
+    info: site.instagramLabel,
+    href: site.instagramHref,
+    external: true,
   },
 ];
 
 export function ContactSection() {
   return (
-    <section
-      id="contato"
-      className="scroll-mt-[90px] bg-[#F8FAFC] py-20 sm:py-24"
-      aria-labelledby="contato-titulo"
-    >
+    <section id="contato" aria-labelledby="contato-titulo" className="bg-paper py-24 sm:py-32">
       <div className="container-site">
-        <ScrollReveal className="mx-auto max-w-3xl text-center">
-          <h2
-            id="contato-titulo"
-            className="text-3xl font-bold tracking-tight text-[#03152F] sm:text-4xl"
-          >
-            Fale Conosco
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-[#03152F]/65 sm:text-lg">
-            Estamos prontos para ajudar sua organização a transformar desafios em
-            oportunidades por meio da inovação, tecnologia e soluções estratégicas.
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-[#03152F]/55 sm:text-base">
-            Entre em contato com nossa equipe para conhecer nossos serviços, esclarecer
-            dúvidas, solicitar propostas ou conversar sobre possíveis parcerias.
-          </p>
-        </ScrollReveal>
+        <Reveal>
+          <div className="relative isolate overflow-hidden rounded-[32px] bg-ink px-6 py-14 text-white sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+            <div aria-hidden className="absolute inset-0 -z-10">
+              <div className="bg-grid absolute inset-0" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_0%_100%,rgba(143,209,143,0.14),transparent_70%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_100%_0%,rgba(59,130,246,0.22),transparent_70%)]" />
+            </div>
+            <LogoMark
+              tone="dark"
+              className="pointer-events-none absolute -right-16 -top-10 -z-10 hidden w-[420px] opacity-[0.05] lg:block"
+            />
 
-        <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {contactCards.map((card, i) => (
-            <ScrollReveal key={card.title} delay={i * 0.08}>
-              <li className="h-full">
-                <motion.article
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex h-full flex-col rounded-[16px] border border-[#E5E7EB] bg-white p-8 shadow-sm transition-shadow hover:shadow-lg"
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
+              <div>
+                <Eyebrow tone="dark">Fale conosco</Eyebrow>
+                <h2
+                  id="contato-titulo"
+                  className="mt-5 font-display text-[clamp(2rem,4vw,3.25rem)] font-extrabold leading-[1.05] tracking-[-0.03em] text-balance"
                 >
-                  <div className="mb-5 text-[#8FD18F]">{card.icon}</div>
-                  <h3 className="text-lg font-bold text-[#03152F]">{card.title}</h3>
-                  <p className="mt-3 flex-1 text-sm leading-relaxed text-[#03152F]/60">
-                    {card.description}
-                  </p>
-                  <p className="mt-4 text-sm font-semibold text-[#03152F]">{card.info}</p>
-                  <a
-                    href={card.href}
-                    target={card.external ? "_blank" : undefined}
-                    rel={card.external ? "noopener noreferrer" : undefined}
-                    className="mt-6 inline-flex items-center justify-center rounded-[10px] bg-[#8FD18F] px-5 py-2.5 text-sm font-semibold text-[#03152F] transition-colors hover:bg-[#7bc47d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8FD18F]"
-                    aria-label={`${card.buttonLabel} — ${card.title}`}
-                  >
-                    {card.buttonLabel}
-                  </a>
-                </motion.article>
-              </li>
-            </ScrollReveal>
-          ))}
-        </ul>
+                  Vamos levar inovação para a sua gestão?
+                </h2>
+                <p className="mt-6 max-w-md text-[17px] leading-relaxed text-mist/75">
+                  Estamos prontos para ajudar sua organização a transformar desafios em
+                  oportunidades. Fale com a nossa equipe para conhecer os serviços,
+                  solicitar propostas ou conversar sobre parcerias.
+                </p>
+              </div>
+
+              <ul className="flex flex-col gap-3">
+                {channels.map((c) => (
+                  <li key={c.title}>
+                    <a
+                      href={c.href}
+                      target={c.external ? "_blank" : undefined}
+                      rel={c.external ? "noopener noreferrer" : undefined}
+                      className={`btn group flex items-center gap-5 rounded-[20px] border p-5 sm:p-6 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint ${
+                        c.primary
+                          ? "border-mint bg-mint text-ink hover:bg-mint-hover"
+                          : "border-white/10 bg-white/[0.04] text-white hover:border-white/25 hover:bg-white/[0.07]"
+                      }`}
+                    >
+                      <span
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${
+                          c.primary
+                            ? "bg-ink text-white [--icon-accent:var(--color-mint)]"
+                            : "bg-white/[0.06] text-white ring-1 ring-white/10 [--icon-accent:var(--color-mint)]"
+                        }`}
+                      >
+                        <Icon name={c.icon} />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-display text-lg font-bold tracking-tight">{c.title}</span>
+                        <span className={`mt-0.5 block truncate text-[15px] font-medium ${c.primary ? "text-ink/80" : "text-mist/80"}`}>
+                          {c.info}
+                        </span>
+                        <span className={`mt-1 hidden text-sm sm:block ${c.primary ? "text-ink/65" : "text-mist/55"}`}>
+                          {c.description}
+                        </span>
+                      </span>
+                      <Icon name="arrowUpRight" size={20} className="arrow shrink-0" />
+                      {c.external && <span className="sr-only">(abre em nova aba)</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

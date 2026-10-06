@@ -1,4 +1,6 @@
-import { ScrollReveal } from "@/components/ScrollReveal";
+import { Icon } from "@/components/Icon";
+import { Reveal } from "@/components/Reveal";
+import { SectionHeader } from "@/components/ui";
 
 const values = [
   "Inovação",
@@ -10,79 +12,58 @@ const values = [
   "Responsabilidade Social",
 ];
 
-function MissionIcon() {
-  return (
-    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-50 text-[#3B82F6]">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M12 7v5l3 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M12 3v1M12 20v1M3 12h1M20 12h1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    </span>
-  );
-}
-
-function VisionIcon() {
-  return (
-    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#8FD18F]/15 text-[#10B981]">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path
-          d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-        />
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    </span>
-  );
-}
+const pillars = [
+  {
+    icon: "mission" as const,
+    title: "Nossa Missão",
+    text: "Promover inovação e transformação digital por meio de soluções inteligentes que aumentem a eficiência, fortaleçam a transparência e contribuam para o desenvolvimento sustentável de organizações e comunidades.",
+  },
+  {
+    icon: "eye" as const,
+    title: "Nossa Visão",
+    text: "Ser referência nacional em inovação, GovTech e transformação digital, reconhecida pela excelência na entrega de projetos que geram impacto positivo e resultados duradouros.",
+  },
+];
 
 export function MvvSection() {
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section aria-labelledby="proposito-titulo" className="bg-white py-24 sm:py-32">
       <div className="container-site">
-        <div className="grid grid-cols-1 divide-y divide-[#E5E7EB] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
-          <ScrollReveal className="px-0 py-8 lg:px-8 lg:py-0 lg:first:pl-0">
-            <article className="rounded-[16px] bg-white p-8 lg:p-0">
-              <MissionIcon />
-              <h2 className="mt-5 text-xl font-bold text-[#03152F]">Nossa Missão</h2>
-              <p className="mt-4 text-sm leading-relaxed text-[#03152F]/65 sm:text-[15px]">
-                Promover inovação e transformação digital por meio de soluções
-                inteligentes que aumentem a eficiência, fortaleçam a transparência
-                e contribuam para o desenvolvimento sustentável de organizações e
-                comunidades.
-              </p>
-            </article>
-          </ScrollReveal>
+        <SectionHeader
+          id="proposito-titulo"
+          eyebrow="Propósito"
+          title="Conectar tecnologia, inteligência e gestão."
+          description="Nossa missão é gerar resultados concretos, impulsionar a modernização institucional e promover impacto positivo na sociedade."
+        />
 
-          <ScrollReveal delay={0.08} className="px-0 py-8 lg:px-8 lg:py-0">
-            <article className="rounded-[16px] bg-white p-8 lg:p-0">
-              <VisionIcon />
-              <h2 className="mt-5 text-xl font-bold text-[#03152F]">Nossa Visão</h2>
-              <p className="mt-4 text-sm leading-relaxed text-[#03152F]/65 sm:text-[15px]">
-                Ser referência nacional em inovação, GovTech e transformação
-                digital, reconhecida pela excelência na entrega de projetos que
-                geram impacto positivo e resultados duradouros.
-              </p>
-            </article>
-          </ScrollReveal>
+        <div className="mt-14 grid gap-5 lg:grid-cols-3">
+          {pillars.map((p, i) => (
+            <Reveal key={p.title} delay={i * 70}>
+              <article className="flex h-full flex-col rounded-[28px] border border-line bg-paper p-8 sm:p-10">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-ink ring-1 ring-line [--icon-accent:var(--color-mint-ink)]">
+                  <Icon name={p.icon} />
+                </span>
+                <h3 className="mt-8 font-display text-2xl font-bold tracking-tight text-ink">{p.title}</h3>
+                <p className="mt-4 text-[15px] leading-relaxed text-ink/70">{p.text}</p>
+              </article>
+            </Reveal>
+          ))}
 
-          <ScrollReveal delay={0.16} className="px-0 py-8 lg:px-8 lg:py-0 lg:last:pr-0">
-            <article className="rounded-[16px] bg-white p-8 lg:p-0">
-              <h2 className="text-xl font-bold text-[#03152F]">Nossos Valores</h2>
-              <ul className="mt-5 space-y-2.5">
+          <Reveal delay={140}>
+            <article className="h-full rounded-[28px] bg-ink p-8 text-white sm:p-10">
+              <h3 className="font-display text-2xl font-bold tracking-tight">Nossos Valores</h3>
+              <ul className="mt-6 flex flex-wrap gap-2">
                 {values.map((value) => (
                   <li
                     key={value}
-                    className="flex items-start gap-2.5 text-sm text-[#03152F]/70 sm:text-[15px]"
+                    className="rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-2 text-sm font-medium text-white/85"
                   >
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[#8FD18F]" />
                     {value}
                   </li>
                 ))}
               </ul>
             </article>
-          </ScrollReveal>
+          </Reveal>
         </div>
       </div>
     </section>

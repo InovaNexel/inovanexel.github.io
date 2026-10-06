@@ -1,238 +1,86 @@
-"use client";
+import { contactHref } from "@/lib/navigation";
+import { sistemas } from "@/lib/sistemas";
+import Link from "next/link";
+import type { CSSProperties } from "react";
+import { LogoFormation } from "./hero/LogoFormation";
+import { NavLink } from "./NavLink";
+import { Arrow, buttonClass, Eyebrow } from "./ui";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-
-const NETWORK_NODES = [
-  [10, 20], [25, 15], [40, 25], [55, 12], [70, 22], [85, 18], [95, 35],
-  [75, 45], [55, 55], [35, 48], [20, 60], [12, 75], [30, 80], [50, 70],
-  [68, 65], [88, 55],
-] as const;
-
-// Pontos do cenário que viajam até formar o logo. Coordenadas finais no
-// espaço do PNG do logo (261 x 238), medidas a partir da própria imagem.
-// `t` escalona a partida (o mais distante sai primeiro) e `lead` diz qual
-// eixo sai na frente — o outro atrasa e a trajetória vira uma curva.
-// `swing` é o desvio máximo (unidades do logo), perpendicular à rota e sempre
-// no sentido horário, para os pontos convergirem em redemoinho.
-type LogoNode = {
-  x: number;
-  y: number;
-  d: number;
-  color: string;
-  t: number;
-  lead: "x" | "y";
-  swing: [number, number];
-};
-
-const LOGO_NODES: Record<number, LogoNode> = {
-  4: { x: 27.5, y: 35.5, d: 43, color: "rgb(8, 91, 193)", t: 0.38, lead: "y", swing: [-45, -7] },
-  5: { x: 225, y: 37, d: 42, color: "rgb(229, 229, 231)", t: 0.54, lead: "x", swing: [-50, 0] },
-  7: { x: 144, y: 105.5, d: 23, color: "rgb(12, 32, 91)", t: 0.7, lead: "y", swing: [-24, 17] },
-  14: { x: 95, y: 132.5, d: 28, color: "rgb(12, 32, 91)", t: 0.62, lead: "x", swing: [17, 28] },
-  13: { x: 29.5, y: 192, d: 44, color: "rgb(38, 174, 72)", t: 0.3, lead: "y", swing: [4, 66] },
-  15: { x: 226, y: 208, d: 43, color: "rgb(12, 32, 91)", t: 0.46, lead: "x", swing: [-39, -14] },
-};
-
-const AXIS_LAG = 0.16;
-
-// Segmentos do logo, agrupados em dois traços (o "M" e a diagonal de baixo)
-// e orientados no sentido do desenho. Cada segmento começa quando o anterior
-// termina, com velocidade constante — como uma caneta.
-const LOGO_STROKES = [
-  {
-    start: 1.25,
-    segments: [
-      [27, 192, 27, 36],
-      [30, 28.8, 144, 107.3],
-      [144, 106.9, 224, 37.3],
-      [226, 37, 226, 208],
-    ],
-  },
-  {
-    start: 1.55,
-    segments: [
-      [29, 194.3, 95.5, 132],
-      [95.5, 130.2, 226, 217.5],
-    ],
-  },
-] as const;
-
-const PEN_SPEED = 640; // unidades do logo por segundo
-
-const LOGO_LINES = LOGO_STROKES.flatMap(({ start, segments }) => {
-  let at = start;
-  return segments.map(([x1, y1, x2, y2]) => {
-    const duration = Math.hypot(x2 - x1, y2 - y1) / PEN_SPEED;
-    const line = { x1, y1, x2, y2, delay: at, duration };
-    at += duration;
-    return line;
-  });
-});
-
-function HeroNetwork() {
-  const nodes = NETWORK_NODES;
-  return (
-    <div className="hero-logo absolute inset-0" aria-hidden>
-      <svg className="absolute inset-0 h-full w-full opacity-60">
-        {nodes.map(([x1, y1], i) => {
-          if (i === 0) return null;
-          const [x0, y0] = nodes[i - 1]!;
-          const moving = i in LOGO_NODES || i - 1 in LOGO_NODES;
-          return (
-            <line
-              key={`l-${i}`}
-              className={moving ? "hero-net-line--fade" : undefined}
-              x1={`${x0}%`}
-              y1={`${y0}%`}
-              x2={`${x1}%`}
-              y2={`${y1}%`}
-              stroke="#60A5FA"
-              strokeWidth="0.5"
-              strokeOpacity="0.35"
-            />
-          );
-        })}
-      </svg>
-
-      <div className="hero-logo__box hero-logo__glow" />
-
-      {nodes.map(([cx, cy], i) =>
-        i in LOGO_NODES ? null : (
-          <span
-            key={`n-${i}`}
-            className="hero-dot"
-            style={{ "--x0": `${cx}%`, "--y0": `${cy}%` } as React.CSSProperties}
-          />
-        ),
-      )}
-
-      {/* Barras e pontos do logo num único grupo: o brilho contorna a peça inteira. */}
-      <div className="hero-logo__piece absolute inset-0">
-        <svg className="hero-logo__box hero-logo__lines" viewBox="0 0 261 238">
-          {LOGO_LINES.map(({ x1, y1, x2, y2, delay, duration }, i) => (
-            <line
-              key={i}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              pathLength={1}
-              stroke="rgb(12, 32, 91)"
-              strokeWidth={15}
-              style={{ animationDelay: `${delay}s`, animationDuration: `${duration}s` }}
-            />
-          ))}
-        </svg>
-
-        {Object.entries(LOGO_NODES).map(([i, target]) => {
-          const [cx, cy] = nodes[Number(i)]!;
-          return (
-            <span
-              key={`n-${i}`}
-              className="hero-fly"
-              style={
-                {
-                  "--x0": `${cx}%`,
-                  "--y0": `${cy}%`,
-                  "--fx": target.x,
-                  "--fy": target.y,
-                  "--t": `${target.t}s`,
-                  "--lag-x": target.lead === "x" ? "0s" : `${AXIS_LAG}s`,
-                  "--lag-y": target.lead === "y" ? "0s" : `${AXIS_LAG}s`,
-                } as React.CSSProperties
-              }
-            >
-              <span
-                className="hero-dot hero-dot--move"
-                style={
-                  {
-                    "--fd": target.d,
-                    "--sx": target.swing[0],
-                    "--sy": target.swing[1],
-                    "--fc": target.color,
-                  } as React.CSSProperties
-                }
-              />
-            </span>
-          );
-        })}
-      </div>
-
-      <p className="hero-logo__wordmark">
-        <span>Inova</span> <span className="text-[#8FD18F]">Nexel</span>
-      </p>
-    </div>
-  );
-}
+const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
 export function Hero() {
   return (
     <section
       id="home"
-      className="relative h-[min(750px,100svh)] min-h-[600px] w-full scroll-mt-[90px] overflow-hidden"
+      aria-labelledby="hero-titulo"
+      className="relative isolate h-[100svh] max-h-[940px] min-h-[660px] w-full overflow-hidden bg-ink text-white"
     >
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-[#03152F] via-[#08244A] to-[#0B2E5A]"
-        aria-hidden
-      />
-      <Image
-        src="https://images.unsplash.com/photo-1564760059415-884a737d0637?auto=format&fit=crop&w=1920&q=80"
-        alt=""
-        fill
-        className="object-cover object-right opacity-50"
-        priority
-        sizes="100vw"
-      />
-      <div
-        className="absolute inset-0 bg-gradient-to-r from-[#03152F]/95 via-[#03152F]/75 to-[#03152F]/40"
-        aria-hidden
-      />
-      <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,rgba(59,130,246,0.15),transparent_55%)]"
-        aria-hidden
-      />
-      <HeroNetwork />
+      <div aria-hidden className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink-2 to-ink-3" />
+        <div className="bg-grid absolute inset-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_45%_at_77%_52%,rgba(59,130,246,0.22),transparent_70%)]" />
+        {/* Disco de luz atrás do logo animado (lg+): dá contraste às barras navy do símbolo. */}
+        <div className="absolute left-[83%] top-[54%] hidden aspect-square w-[clamp(340px,34vw,500px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(217,229,244,0.30),rgba(147,197,253,0.12)_55%,transparent)] lg:block xl:left-[77%]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_35%_30%_at_10%_100%,rgba(143,209,143,0.10),transparent_70%)]" />
+      </div>
 
-      <div className="container-site relative z-10 flex h-full items-center pt-[90px]">
-        <div className="max-w-[640px]">
-          <motion.h1
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[clamp(2.25rem,5vw,4.5rem)] font-bold leading-[1.08] tracking-tight text-white"
+      <LogoFormation />
+
+      <div className="container-site relative flex h-full flex-col justify-center pb-10 pt-[var(--header-h)]">
+        <div className="max-w-[640px] lg:max-w-[min(640px,52%)]">
+          <Eyebrow tone="dark" className="rise">
+            GovTech<span className="-ml-[0.6rem] hidden sm:inline">&nbsp;· Inovação para o setor público</span>
+            <span className="-ml-[0.6rem] sm:hidden">&nbsp;· Setor público</span>
+          </Eyebrow>
+
+          <h1
+            id="hero-titulo"
+            className="rise mt-6 font-display text-[clamp(2.6rem,6vw,4.75rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-balance"
+            style={d(80)}
           >
-            Inovação que transforma a gestão pública.
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 max-w-[450px] text-base leading-relaxed text-[#D9E5F4] sm:text-lg"
+            Inovação que transforma a{" "}
+            <span className="text-mint">gestão pública.</span>
+          </h1>
+
+          <p
+            className="rise mt-6 max-w-[480px] text-[17px] leading-relaxed text-mist/85 sm:text-lg"
+            style={d(160)}
           >
             Soluções tecnológicas para governos inteligentes, eficientes e
             conectados com a sociedade.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
-          >
-            <a
-              href="#solucoes"
-              className="inline-flex items-center justify-center rounded-[10px] bg-[#8FD18F] px-7 py-3.5 text-sm font-semibold text-[#03152F] transition-colors hover:bg-[#7bc47d]"
-            >
-              Conheça nossas soluções
-            </a>
-            <a
-              href="#contato"
-              className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
-            >
+          </p>
+
+          <div className="rise mt-10 flex flex-col gap-3 sm:flex-row" style={d(240)}>
+            <Link href="/sistemas" className={buttonClass("primary")}>
+              Conheça nossos sistemas
+              <Arrow />
+            </Link>
+            <NavLink href={contactHref} className={buttonClass("ghost-dark")}>
               Fale com um especialista
-              <span aria-hidden>→</span>
-            </a>
-          </motion.div>
+            </NavLink>
+          </div>
+
+          <div className="rise mt-14 border-t border-white/10 pt-6" style={d(340)}>
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/45">
+              Sistemas próprios
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {sistemas.map((s) => (
+                <li key={s.sigla}>
+                  <Link
+                    href={s.href ?? "/sistemas"}
+                    className="btn inline-flex h-9 items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 font-mono text-xs font-medium tracking-wide text-white/80 hover:border-white/30 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
+                  >
+                    {s.loginHref && (
+                      <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-mint" />
+                    )}
+                    {s.sigla}
+                    <span className="sr-only">— {s.nome}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

@@ -1,84 +1,83 @@
 import { noticias } from "@/lib/noticias";
 import Image from "next/image";
 import Link from "next/link";
-import { ScrollReveal } from "./ScrollReveal";
+import { Reveal } from "./Reveal";
+import { Arrow, SectionHeader } from "./ui";
 
 export function NoticiasSection() {
+  const [destaque, ...demais] = noticias;
+
   return (
-    <section
-      id="noticias"
-      className="scroll-mt-[90px] bg-white py-20 sm:py-24"
-      aria-labelledby="noticias-titulo"
-    >
+    <section id="noticias" aria-labelledby="noticias-titulo" className="bg-white py-24 sm:py-32">
       <div className="container-site">
-        <ScrollReveal className="mx-auto max-w-2xl text-center">
-          <h2
-            id="noticias-titulo"
-            className="text-3xl font-bold tracking-tight text-[#03152F] sm:text-4xl"
-          >
-            Notícias
-          </h2>
-          <p className="mt-4 text-base leading-relaxed text-[#03152F]/65 sm:text-lg">
-            Acompanhe as novidades, publicações e insights da Inova Nexel sobre
-            inovação, GovTech e transformação digital.
-          </p>
-        </ScrollReveal>
+        <SectionHeader
+          id="noticias-titulo"
+          eyebrow="04 · Notícias"
+          title="Novidades da Inova Nexel."
+          description="Acompanhe as novidades, publicações e insights sobre inovação, GovTech e transformação digital."
+        />
 
-        <ul className="mx-auto mt-14 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {noticias.map((item, i) => (
-            <ScrollReveal key={item.slug} delay={i * 0.06}>
-              <li className="h-full">
-                <article className="group relative flex h-full flex-col overflow-hidden rounded-[16px] border border-[#E5E7EB] bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <div className="relative aspect-[16/10] overflow-hidden bg-[#03152F]/5">
-                    <Image
-                      src={item.capa.src}
-                      alt={item.capa.alt}
-                      fill
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
+        {destaque && (
+          <Reveal className="mt-14">
+            <article className="group relative grid overflow-hidden rounded-[28px] border border-line bg-paper lg:grid-cols-2">
+              <div className="relative aspect-[16/11] overflow-hidden bg-ink/5 lg:aspect-auto lg:min-h-[440px]">
+                <Image
+                  src={destaque.capa.src}
+                  alt={destaque.capa.alt}
+                  fill
+                  className="img-zoom object-cover object-[50%_25%]"
+                  sizes="(max-width: 1024px) 100vw, 640px"
+                />
+              </div>
+              <div className="flex flex-col p-8 sm:p-12">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-full bg-mint/20 px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink">
+                    {destaque.categoria}
+                  </span>
+                  <time dateTime={destaque.dataISO} className="text-sm text-ink/55">
+                    {destaque.data}
+                  </time>
+                </div>
+                <h3 className="mt-6 font-display text-[clamp(1.6rem,2.6vw,2.25rem)] font-bold leading-[1.12] tracking-[-0.02em] text-ink text-balance">
+                  <Link
+                    href={`/noticias/${destaque.slug}`}
+                    className="after:absolute after:inset-0 after:rounded-[28px] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-ink"
+                  >
+                    {destaque.titulo}
+                  </Link>
+                </h3>
+                <p className="mt-4 text-[17px] leading-relaxed text-ink/65">{destaque.resumo}</p>
+                <span aria-hidden className="mt-auto inline-flex items-center gap-2 pt-10 text-[15px] font-semibold text-ink">
+                  Ler notícia
+                  <Arrow />
+                </span>
+              </div>
+            </article>
+          </Reveal>
+        )}
 
-                  <div className="flex flex-1 flex-col p-8">
-                    <div className="flex items-center gap-3">
-                      <span className="inline-block rounded-full bg-[#8FD18F]/15 px-3 py-1 text-xs font-semibold text-[#03152F]">
-                        {item.categoria}
-                      </span>
-                      <time
-                        dateTime={item.dataISO}
-                        className="text-xs font-medium text-[#03152F]/50"
-                      >
-                        {item.data}
-                      </time>
-                    </div>
-
-                    <h3 className="mt-5 text-lg font-bold leading-snug text-[#03152F]">
-                      <Link
-                        href={`/noticias/${item.slug}`}
-                        className="after:absolute after:inset-0 focus-visible:outline-none after:rounded-[16px] focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-[#8FD18F]"
-                      >
-                        {item.titulo}
-                      </Link>
-                    </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[#03152F]/60">
-                      {item.resumo}
-                    </p>
-
-                    <span
-                      aria-hidden
-                      className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold text-[#03152F]"
+        {demais.length > 0 && (
+          <ul className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {demais.map((n, i) => (
+              <Reveal as="li" key={n.slug} delay={i * 60}>
+                <article className="group card-lift relative flex h-full flex-col rounded-[24px] border border-line bg-white p-7">
+                  <time dateTime={n.dataISO} className="text-sm text-ink/55">
+                    {n.data}
+                  </time>
+                  <h3 className="mt-3 font-display text-xl font-bold leading-snug tracking-tight text-ink">
+                    <Link
+                      href={`/noticias/${n.slug}`}
+                      className="after:absolute after:inset-0 after:rounded-[24px] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-ink"
                     >
-                      Ler notícia
-                      <span className="transition-transform duration-300 group-hover:translate-x-1">
-                        →
-                      </span>
-                    </span>
-                  </div>
+                      {n.titulo}
+                    </Link>
+                  </h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-ink/65">{n.resumo}</p>
                 </article>
-              </li>
-            </ScrollReveal>
-          ))}
-        </ul>
+              </Reveal>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );
