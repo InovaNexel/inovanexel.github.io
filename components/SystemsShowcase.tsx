@@ -59,7 +59,7 @@ export function SystemsShowcase() {
               </p>
 
               <ul className="mt-8 grid max-w-md grid-cols-1 gap-x-6 gap-y-3 border-t border-white/10 pt-8 sm:grid-cols-2">
-                {sigelEtapas.map((etapa) => (
+                {sigelEtapas.map(({ nome: etapa }) => (
                   <li key={etapa} className="flex items-center gap-3 text-[15px] text-mist/85">
                     <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-mint/15 text-mint">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

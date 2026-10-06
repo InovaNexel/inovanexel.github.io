@@ -19,17 +19,17 @@ export function NoticiasSection() {
 
         {destaque && (
           <Reveal className="mt-14">
-            <article className="group relative grid overflow-hidden rounded-[28px] border border-line bg-paper lg:grid-cols-2">
-              <div className="relative aspect-[16/11] overflow-hidden bg-ink/5 lg:aspect-auto lg:min-h-[440px]">
+            <article className="group relative grid overflow-hidden rounded-[28px] border border-line bg-paper lg:grid-cols-[38%_minmax(0,1fr)]">
+              <div className="relative aspect-[4/3] overflow-hidden bg-ink/5 lg:aspect-auto lg:min-h-[360px]">
                 <Image
                   src={destaque.capa.src}
                   alt={destaque.capa.alt}
                   fill
-                  className="img-zoom object-cover object-[50%_25%]"
-                  sizes="(max-width: 1024px) 100vw, 640px"
+                  className="img-zoom object-cover object-[50%_20%]"
+                  sizes="(max-width: 1024px) 100vw, 500px"
                 />
               </div>
-              <div className="flex flex-col p-8 sm:p-12">
+              <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-14">
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="rounded-full bg-mint/20 px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-ink">
                     {destaque.categoria}
@@ -47,7 +47,7 @@ export function NoticiasSection() {
                   </Link>
                 </h3>
                 <p className="mt-4 text-[17px] leading-relaxed text-ink/65">{destaque.resumo}</p>
-                <span aria-hidden className="mt-auto inline-flex items-center gap-2 pt-10 text-[15px] font-semibold text-ink">
+                <span aria-hidden className="mt-8 inline-flex items-center gap-2 text-[15px] font-semibold text-ink">
                   Ler notícia
                   <Arrow />
                 </span>

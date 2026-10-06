@@ -17,6 +17,21 @@ export const metadata: Metadata = {
     "Soluções completas de sistemas próprios para governos e prefeituras: SIGEL, SIGAL, SIGEFROT e SIGEP.",
 };
 
+const passos = [
+  {
+    titulo: "Apresentação",
+    texto: "Mostramos o sistema para a sua equipe e entendemos a rotina da secretaria.",
+  },
+  {
+    titulo: "Implantação assistida",
+    texto: "Configuramos o sistema e acompanhamos os primeiros passos dos usuários.",
+  },
+  {
+    titulo: "Suporte",
+    texto: "A Inova Nexel segue ao lado da gestão depois da entrega.",
+  },
+];
+
 export default function SistemasPage() {
   return (
     <>
@@ -39,7 +54,7 @@ export default function SistemasPage() {
           </div>
         </PageHero>
 
-        <section aria-labelledby="lista-sistemas" className="bg-paper py-24 sm:py-32">
+        <section aria-labelledby="lista-sistemas" className="bg-paper pb-16 pt-24 sm:pt-32">
           <div className="container-site">
             <SectionHeader
               id="lista-sistemas"
@@ -78,9 +93,20 @@ export default function SistemasPage() {
                       )}
                     </div>
                     <p className="mt-1 text-[15px] font-medium text-ink/60">{s.nome}</p>
-                    <p className="mt-5 flex-1 text-[15px] leading-relaxed text-ink/70">{s.descricao}</p>
+                    <p className="mt-5 text-[15px] leading-relaxed text-ink/70">{s.descricao}</p>
+                    <ul className="mt-6 flex flex-1 flex-wrap content-start gap-2">
+                      {s.recursos.map((r) => (
+                        <li
+                          key={r}
+                          className="inline-flex items-center gap-2 rounded-full bg-paper px-3 py-1.5 text-[13px] font-medium text-ink/75 ring-1 ring-line"
+                        >
+                          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-mint-ink" />
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
 
-                    <div className="mt-8 flex flex-wrap gap-3 border-t border-line pt-6">
+                    <div className="mt-8 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:flex-wrap">
                       {s.href ? (
                         <Link href={s.href} className={buttonClass("dark", "sm")}>
                           Página do {s.sigla}
@@ -113,7 +139,32 @@ export default function SistemasPage() {
           </div>
         </section>
 
-        <ContactSection />
+        <section aria-labelledby="contratacao-titulo" className="bg-paper pb-16">
+          <div className="container-site">
+            <Reveal className="rounded-[28px] border border-line bg-white p-8 sm:p-12">
+              <p className="eyebrow text-mint-ink">Como contratamos</p>
+              <h2
+                id="contratacao-titulo"
+                className="mt-4 max-w-xl font-display text-[clamp(1.6rem,3vw,2.25rem)] font-bold leading-tight tracking-[-0.02em] text-ink"
+              >
+                Da primeira conversa ao sistema rodando na sua secretaria.
+              </h2>
+              <ol className="mt-10 grid gap-8 md:grid-cols-3 md:gap-6">
+                {passos.map((p, i) => (
+                  <li key={p.titulo} className="border-t-2 border-ink pt-5 first:border-mint">
+                    <p className="font-mono text-xs tracking-[0.14em] text-ink/40">
+                      {String(i + 1).padStart(2, "0")}
+                    </p>
+                    <p className="mt-1 font-display text-xl font-bold tracking-tight text-ink">{p.titulo}</p>
+                    <p className="mt-2 text-[15px] leading-relaxed text-ink/65">{p.texto}</p>
+                  </li>
+                ))}
+              </ol>
+            </Reveal>
+          </div>
+        </section>
+
+        <ContactSection flush />
       </main>
       <Footer />
     </>

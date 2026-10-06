@@ -35,19 +35,51 @@ export async function generateMetadata({
   };
 }
 
-function Midia({ midia, priority = false }: { midia: NoticiaMidia; priority?: boolean }) {
+/*
+ * Fotos retrato viram recortes em proporção fixa para não dominarem o texto;
+ * imagens horizontais (como o GIF) mantêm o tamanho natural.
+ */
+type Formato = "capa" | "corpo" | "galeria";
+
+const recorte: Record<Formato, string> = {
+  capa: "aspect-[16/9]",
+  corpo: "aspect-[3/2]",
+  galeria: "aspect-[4/5]",
+};
+
+function Midia({
+  midia,
+  formato = "corpo",
+  priority = false,
+}: {
+  midia: NoticiaMidia;
+  formato?: Formato;
+  priority?: boolean;
+}) {
+  const retrato = midia.altura > midia.largura;
   return (
     <figure>
-      <div className="overflow-hidden rounded-[22px] bg-ink/5">
-        <Image
-          src={midia.src}
-          alt={midia.alt}
-          width={midia.largura}
-          height={midia.altura}
-          priority={priority}
-          className="h-auto w-full"
-          sizes="(max-width: 768px) 100vw, 768px"
-        />
+      <div className={`relative overflow-hidden rounded-[22px] bg-ink/5 ${retrato ? recorte[formato] : ""}`}>
+        {retrato ? (
+          <Image
+            src={midia.src}
+            alt={midia.alt}
+            fill
+            priority={priority}
+            className="object-cover object-[50%_25%]"
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
+        ) : (
+          <Image
+            src={midia.src}
+            alt={midia.alt}
+            width={midia.largura}
+            height={midia.altura}
+            priority={priority}
+            className="h-auto w-full"
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
+        )}
       </div>
       <figcaption className="mt-3 border-l-2 border-mint pl-3 text-sm leading-relaxed text-ink/60">
         {midia.legenda}
@@ -97,7 +129,7 @@ function Bloco({ bloco }: { bloco: NoticiaBloco }) {
       return (
         <div className="grid gap-6 sm:grid-cols-2">
           {bloco.midias.map((m) => (
-            <Midia key={m.src} midia={m} />
+            <Midia key={m.src} midia={m} formato="galeria" />
           ))}
         </div>
       );
@@ -141,6 +173,7 @@ export default async function NoticiaPage({ params }: PageProps<"/noticias/[slug
           ]}
           eyebrow={noticia.categoria}
           title={noticia.titulo}
+          compact
           description={
             <>
               <p>{noticia.resumo}</p>
@@ -158,7 +191,7 @@ export default async function NoticiaPage({ params }: PageProps<"/noticias/[slug
         <article className="bg-paper pb-24 sm:pb-32">
           <div className="container-site">
             <div className="mx-auto max-w-3xl -translate-y-10 sm:-translate-y-14">
-              <Midia midia={noticia.capa} priority />
+              <Midia midia={noticia.capa} formato="capa" priority />
             </div>
 
             <div className="mx-auto max-w-[68ch] space-y-7 text-[18px] leading-[1.8] text-ink/80">

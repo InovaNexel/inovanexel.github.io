@@ -15,13 +15,16 @@ export function PageHero({
   crumbs,
   children,
   aside,
+  compact = false,
 }: {
-  eyebrow: string;
+  eyebrow: ReactNode;
   title: ReactNode;
   description?: ReactNode;
   crumbs: Crumb[];
   children?: ReactNode;
   aside?: ReactNode;
+  /** Títulos longos (notícias) usam uma escala menor. */
+  compact?: boolean;
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-ink pb-20 pt-[calc(var(--header-h)+56px)] text-white sm:pb-24 sm:pt-[calc(var(--header-h)+80px)]">
@@ -62,7 +65,7 @@ export function PageHero({
             {eyebrow}
           </Eyebrow>
           <h1
-            className="rise mt-5 font-display text-[clamp(2.4rem,5.5vw,4.25rem)] font-extrabold leading-[1.04] tracking-[-0.035em] text-balance"
+            className={`rise mt-5 font-display font-extrabold text-balance ${compact ? "text-[clamp(2rem,4vw,3.25rem)] leading-[1.08] tracking-[-0.03em]" : "text-[clamp(2.4rem,5.5vw,4.25rem)] leading-[1.04] tracking-[-0.035em]"}`}
             style={d(80)}
           >
             {title}

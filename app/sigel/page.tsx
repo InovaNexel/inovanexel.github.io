@@ -5,6 +5,7 @@ import { Icon, type IconName } from "@/components/Icon";
 import { NavLink } from "@/components/NavLink";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
+import { SigelMock } from "@/components/SigelMock";
 import { Arrow, buttonClass, SectionHeader } from "@/components/ui";
 import { contactHref } from "@/lib/navigation";
 import { site } from "@/lib/site";
@@ -16,7 +17,6 @@ export const metadata: Metadata = {
   description:
     "Sistema de gestão de leilão para cadastro, avaliação, reavaliação, depreciação automática, loteamento e prestação de contas completo.",
 };
-
 
 const features: { title: string; description: string; icon: IconName }[] = [
   {
@@ -46,13 +46,13 @@ const features: { title: string; description: string; icon: IconName }[] = [
   {
     title: "Pronto para Uso",
     description:
-      "Solução consolidada e disponível para implantação, com implantação assistida e suporte da Inova Nexel.",
+      "Solução consolidada, com implantação assistida e suporte contínuo da Inova Nexel.",
     icon: "check",
   },
   {
-    title: "Solução Completa",
+    title: "Desfazimento de Ponta a Ponta",
     description:
-      "Solução completa de desfazimento através de leilão, doação ou descarte, com todo processo e procedimento integrados e com tecnologia.",
+      "Leilão, doação ou descarte do bem, com todo o processo e os procedimentos integrados no mesmo fluxo.",
     icon: "package",
   },
 ];
@@ -68,25 +68,33 @@ export default function SigelPage() {
             { label: "Sistemas", href: "/sistemas" },
             { label: "SIGEL" },
           ]}
-          eyebrow="Disponível · Sistema Integrado de Gestão de Leilão"
+          eyebrow={
+            <>
+              Disponível ·<span className="-ml-[0.6rem] hidden sm:inline">&nbsp;Sistema Integrado de Gestão de Leilão</span>
+              <span className="-ml-[0.6rem] sm:hidden">&nbsp;Gestão de leilão</span>
+            </>
+          }
           title="SIGEL"
           description="Sistema de gestão de leilão para cadastro, avaliação, reavaliação, depreciação automática, loteamento e prestação de contas completo."
+          aside={<SigelMock className="mx-auto max-w-[560px]" />}
         >
           <div className="flex flex-col gap-3 sm:flex-row">
+            <NavLink href={contactHref} className={buttonClass("primary")}>
+              Solicitar demonstração
+              <Arrow />
+            </NavLink>
             <a
               href={site.sigelLoginHref}
               target="_blank"
               rel="noopener noreferrer"
-              className={buttonClass("primary")}
+              className={buttonClass("ghost-dark")}
             >
               <Icon name="lock" size={16} />
               Acesso de usuário
               <span className="sr-only">(abre em nova aba)</span>
             </a>
-            <NavLink href={contactHref} className={buttonClass("ghost-dark")}>
-              Solicitar demonstração
-            </NavLink>
           </div>
+          <SigelMock className="mt-12 lg:hidden" />
         </PageHero>
 
         <section aria-labelledby="ciclo-titulo" className="bg-white py-24 sm:py-32">
@@ -98,32 +106,46 @@ export default function SigelPage() {
               description="Do cadastro à prestação de contas, cada etapa do leilão acontece no SIGEL — sem planilhas paralelas."
             />
 
-            <ol className="relative mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-6 lg:gap-4">
-              {/* Linha que liga as etapas, como as barras do logo */}
+            <ol className="relative mt-16 grid gap-9 sm:grid-cols-2 lg:grid-cols-6 lg:gap-6">
+              {/* Linha que liga as etapas no desktop, como as barras do logo */}
               <span aria-hidden className="absolute left-[11px] top-3 hidden h-[2px] w-[calc(100%-22px)] bg-line lg:block" />
-              {etapas.map((etapa, i) => (
-                <Reveal as="li" key={etapa} delay={i * 60} className="relative flex gap-4 lg:flex-col lg:gap-5">
-                  <span
-                    aria-hidden
-                    className={`relative z-10 mt-0.5 h-6 w-6 shrink-0 rounded-full border-[5px] border-white ring-2 lg:mt-0 ${
-                      i === etapas.length - 1 ? "bg-mint ring-mint" : "bg-ink ring-ink/15"
+              {etapas.map((etapa, i) => {
+                const last = i === etapas.length - 1;
+                return (
+                  <Reveal
+                    as="li"
+                    key={etapa.nome}
+                    delay={i * 60}
+                    className={`relative flex gap-4 lg:flex-col lg:gap-5 ${
+                      // No mobile, uma linha vertical liga cada ponto ao próximo.
+                      last
+                        ? ""
+                        : "before:absolute before:left-[11px] before:top-7 before:-bottom-9 before:w-[2px] before:bg-line sm:before:hidden"
                     }`}
-                  />
-                  <div>
-                    <p className="font-mono text-xs tracking-[0.14em] text-ink/40">
-                      {String(i + 1).padStart(2, "0")}
-                    </p>
-                    <p className="mt-1 font-display text-lg font-bold leading-snug tracking-tight text-ink">
-                      {etapa}
-                    </p>
-                  </div>
-                </Reveal>
-              ))}
+                  >
+                    <span
+                      aria-hidden
+                      className={`relative z-10 mt-0.5 h-6 w-6 shrink-0 rounded-full border-[5px] border-white ring-2 lg:mt-0 ${
+                        last ? "bg-mint ring-mint" : "bg-ink ring-ink/15"
+                      }`}
+                    />
+                    <div>
+                      <p className="font-mono text-xs tracking-[0.14em] text-ink/40">
+                        {String(i + 1).padStart(2, "0")}
+                      </p>
+                      <p className="mt-1 font-display text-lg font-bold leading-snug tracking-tight text-ink">
+                        {etapa.nome}
+                      </p>
+                      <p className="mt-1.5 max-w-[220px] text-sm leading-relaxed text-ink/60">{etapa.texto}</p>
+                    </div>
+                  </Reveal>
+                );
+              })}
             </ol>
           </div>
         </section>
 
-        <section aria-labelledby="recursos-titulo" className="bg-paper py-24 sm:py-32">
+        <section aria-labelledby="recursos-titulo" className="bg-paper pb-16 pt-24 sm:pt-32">
           <div className="container-site">
             <SectionHeader
               id="recursos-titulo"
@@ -162,7 +184,7 @@ export default function SigelPage() {
           </div>
         </section>
 
-        <ContactSection />
+        <ContactSection flush />
       </main>
       <Footer />
     </>

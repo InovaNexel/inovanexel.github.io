@@ -71,14 +71,26 @@ export function Footer() {
           </div>
         </div>
 
-        <p
+        {/* Wordmark na largura exata do container: o SVG estica o texto via textLength. */}
+        <svg
           aria-hidden
-          className="mt-20 select-none font-display text-[clamp(2.5rem,11.5vw,11rem)] font-extrabold leading-[0.8] tracking-[-0.05em] text-white/[0.04]"
+          focusable="false"
+          viewBox="0 0 1000 150"
+          className="mt-20 hidden w-full select-none sm:block"
         >
-          INOVA NEXEL
-        </p>
+          <text
+            x="0"
+            y="128"
+            textLength="1000"
+            lengthAdjust="spacingAndGlyphs"
+            className="fill-white/[0.05] font-display font-extrabold"
+            style={{ fontSize: 172, letterSpacing: "-0.04em" }}
+          >
+            INOVA NEXEL
+          </text>
+        </svg>
 
-        <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:justify-between">
+        <div className="mt-14 flex flex-col gap-2 border-t sm:mt-6 border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} Inova Nexel. Todos os direitos reservados.</p>
           <p>
             {site.legalName} · CNPJ {site.cnpj}

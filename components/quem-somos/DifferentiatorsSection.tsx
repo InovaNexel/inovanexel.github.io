@@ -2,11 +2,28 @@ import { Icon, type IconName } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeader } from "@/components/ui";
 
-const items: { title: string; icon: IconName }[] = [
-  { title: "Especialistas em inovação e transformação digital.", icon: "users" },
-  { title: "Metodologias modernas orientadas a resultados.", icon: "gear" },
-  { title: "Tecnologia aplicada para resolver problemas reais.", icon: "target" },
-  { title: "Compromisso com impacto positivo e desenvolvimento sustentável.", icon: "leaf" },
+// Cada diferencial vem com uma prova tirada do próprio site (equipe, sistemas, SIGEL).
+const items: { title: string; detail: string; icon: IconName }[] = [
+  {
+    title: "Especialistas em inovação e transformação digital.",
+    detail: "Sócios-fundadores à frente de inovação, operações, finanças e tecnologia.",
+    icon: "users",
+  },
+  {
+    title: "Metodologias modernas orientadas a resultados.",
+    detail: "Diagnóstico, planejamento e capacitação no mesmo time que desenvolve.",
+    icon: "gear",
+  },
+  {
+    title: "Tecnologia aplicada para resolver problemas reais.",
+    detail: "Quatro sistemas próprios para leilão, almoxarifado, frotas e patrimônio.",
+    icon: "target",
+  },
+  {
+    title: "Compromisso com impacto positivo e desenvolvimento sustentável.",
+    detail: "Implantação assistida e suporte da Inova Nexel depois da entrega.",
+    icon: "leaf",
+  },
 ];
 
 export function DifferentiatorsSection() {
@@ -29,6 +46,9 @@ export function DifferentiatorsSection() {
               </span>
               <p className="mt-8 font-display text-lg font-semibold leading-snug tracking-tight">
                 {item.title}
+              </p>
+              <p className="mt-3 border-t border-white/10 pt-3 text-sm leading-relaxed text-mist/65">
+                {item.detail}
               </p>
             </Reveal>
           ))}

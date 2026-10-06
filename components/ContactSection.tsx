@@ -42,9 +42,14 @@ const channels: Channel[] = [
   },
 ];
 
-export function ContactSection() {
+/** `flush`: sem respiro no topo, quando a seção anterior já termina em `bg-paper`. */
+export function ContactSection({ flush = false }: { flush?: boolean }) {
   return (
-    <section id="contato" aria-labelledby="contato-titulo" className="bg-paper py-24 sm:py-32">
+    <section
+      id="contato"
+      aria-labelledby="contato-titulo"
+      className={`bg-paper pb-24 sm:pb-32 ${flush ? "pt-0" : "pt-24 sm:pt-32"}`}
+    >
       <div className="container-site">
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-[32px] bg-ink px-6 py-14 text-white sm:px-12 sm:py-16 lg:px-16 lg:py-20">

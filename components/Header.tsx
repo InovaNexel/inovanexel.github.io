@@ -41,7 +41,7 @@ export function Header() {
       <header
         className={`site-header fixed inset-x-0 top-0 z-[100] h-[var(--header-h)] border-b ${
           solid
-            ? "border-line bg-white/90 shadow-[0_1px_0_rgb(3_21_47/0.02),0_8px_24px_-16px_rgb(3_21_47/0.18)] backdrop-blur-md"
+            ? "border-line bg-white shadow-[0_8px_24px_-16px_rgb(3_21_47/0.18)]"
             : "border-white/10 bg-transparent"
         }`}
       >
