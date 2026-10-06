@@ -4,23 +4,15 @@ import { parseHashHref } from "@/lib/navigation";
 import { scrollToSection } from "@/lib/scroll";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import type { ReactNode, MouseEvent } from "react";
+import type { ComponentPropsWithoutRef, MouseEvent } from "react";
 
-type NavLinkProps = {
+type NavLinkProps = Omit<ComponentPropsWithoutRef<"a">, "href" | "onClick"> & {
   href: string;
-  children: ReactNode;
-  className?: string;
   onClick?: () => void;
-  "aria-label"?: string;
 };
 
-export function NavLink({
-  href,
-  children,
-  className,
-  onClick,
-  "aria-label": ariaLabel,
-}: NavLinkProps) {
+/** Link que rola suavemente até âncoras da home, de qualquer página. */
+export function NavLink({ href, onClick, children, ...rest }: NavLinkProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { path, hash } = parseHashHref(href);
@@ -29,6 +21,7 @@ export function NavLink({
     onClick?.();
 
     if (!hash) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
 
     const isHome = pathname === "/";
     const targetsHome = path === "/";
@@ -47,12 +40,7 @@ export function NavLink({
   };
 
   return (
-    <Link
-      href={href}
-      onClick={handleClick}
-      className={className}
-      aria-label={ariaLabel}
-    >
+    <Link href={href} onClick={handleClick} {...rest}>
       {children}
     </Link>
   );

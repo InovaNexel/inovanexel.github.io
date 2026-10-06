@@ -1,8 +1,15 @@
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { ScrollReveal } from "@/components/ScrollReveal";
-import Link from "next/link";
+import { Icon, type IconName } from "@/components/Icon";
+import { NavLink } from "@/components/NavLink";
+import { PageHero } from "@/components/PageHero";
+import { Reveal } from "@/components/Reveal";
+import { SigelMock } from "@/components/SigelMock";
+import { Arrow, buttonClass, SectionHeader } from "@/components/ui";
+import { contactHref } from "@/lib/navigation";
+import { site } from "@/lib/site";
+import { sigelEtapas as etapas } from "@/lib/sistemas";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,73 +18,42 @@ export const metadata: Metadata = {
     "Sistema de gestão de leilão para cadastro, avaliação, reavaliação, depreciação automática, loteamento e prestação de contas completo.",
 };
 
-const features = [
+const features: { title: string; description: string; icon: IconName }[] = [
   {
     title: "Gestão Centralizada",
     description:
       "Reúne informações, processos e indicadores em um único ambiente, com visão integrada para a tomada de decisão.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <rect x="3" y="4" width="18" height="14" rx="2" stroke="#8FD18F" strokeWidth="1.5" />
-        <path d="M8 9h8M8 13h5" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
+    icon: "monitor",
   },
   {
     title: "Painéis em Tempo Real",
     description:
       "Dashboards e relatórios dinâmicos que transformam dados em informação clara para gestores e equipes.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M4 18V8l4-2 4 2 4-2 4 2v10" stroke="#8FD18F" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M8 16V10M12 18V8M16 14v4" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
+    icon: "chart",
   },
   {
     title: "Segurança e Conformidade",
     description:
       "Controle de acesso, trilhas de auditoria e aderência às boas práticas de proteção de dados do setor público.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M12 3l7 3v6c0 4-3 6.5-7 9-4-2.5-7-5-7-9V6l7-3z" stroke="#8FD18F" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M9 12l2 2 4-4" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+    icon: "shield",
   },
   {
     title: "Integração Simples",
     description:
       "Conecta-se a sistemas e bases já existentes, evitando retrabalho e acelerando a adoção pela equipe.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M9 18l-4-4 4-4M15 6l4 4-4 4" stroke="#8FD18F" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M5 14h14" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
+    icon: "consult",
   },
   {
     title: "Pronto para Uso",
     description:
-      "Solução consolidada e disponível para implantação, com implantação assistida e suporte da Inova Nexel.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <circle cx="12" cy="12" r="8" stroke="#8FD18F" strokeWidth="1.5" />
-        <path d="M8.5 12l2.5 2.5L15.5 9.5" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+      "Solução consolidada, com implantação assistida e suporte contínuo da Inova Nexel.",
+    icon: "check",
   },
   {
-    title: "Solução Completa",
+    title: "Desfazimento de Ponta a Ponta",
     description:
-      "Solução completa de desfazimento através de leilão, doação ou descarte, com todo processo e procedimento integrados e com tecnologia.",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M4 7h16v13H4z" stroke="#8FD18F" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M4 7l2-3h12l2 3" stroke="#8FD18F" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M9 12l2 2 4-4" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
+      "Leilão, doação ou descarte do bem, com todo o processo e os procedimentos integrados no mesmo fluxo.",
+    icon: "package",
   },
 ];
 
@@ -85,78 +61,130 @@ export default function SigelPage() {
   return (
     <>
       <Header />
-      <main className="bg-[#F8FAFC]">
-        {/* Banner */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#03152F] via-[#08244A] to-[#0B2E5A] pt-[150px] pb-24 sm:pt-[170px] sm:pb-28">
-          <div
-            className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,rgba(59,130,246,0.18),transparent_55%)]"
-            aria-hidden
-          />
-          <div className="container-site relative z-10">
-            <ScrollReveal className="max-w-3xl">
-              <span className="inline-block rounded-full bg-[#8FD18F]/15 px-4 py-1.5 text-sm font-semibold text-[#8FD18F]">
-                Nosso produto pronto para uso
-              </span>
-              <h1 className="mt-6 text-[clamp(2.25rem,5vw,4rem)] font-bold leading-[1.08] tracking-tight text-white">
-                SIGEL
-              </h1>
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#D9E5F4] sm:text-lg">
-                Sistema de gestão de leilão para cadastro, avaliação, reavaliação,
-                depreciação automática, loteamento e prestação de contas completo.
-              </p>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <a
-                  href="https://sigel.inovanexel.com/login"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-[10px] bg-[#8FD18F] px-7 py-3.5 text-sm font-semibold text-[#03152F] transition-colors hover:bg-[#7bc47d]"
-                >
-                  Acesso de usuário
-                </a>
-                <Link
-                  href="/sistemas"
-                  className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
-                >
-                  Sistemas
-                  <span aria-hidden>→</span>
-                </Link>
-              </div>
-            </ScrollReveal>
+      <main id="conteudo" tabIndex={-1} className="outline-none">
+        <PageHero
+          crumbs={[
+            { label: "Início", href: "/" },
+            { label: "Sistemas", href: "/sistemas" },
+            { label: "SIGEL" },
+          ]}
+          eyebrow={
+            <>
+              Disponível ·<span className="-ml-[0.6rem] hidden sm:inline">&nbsp;Sistema Integrado de Gestão de Leilão</span>
+              <span className="-ml-[0.6rem] sm:hidden">&nbsp;Gestão de leilão</span>
+            </>
+          }
+          title="SIGEL"
+          description="Sistema de gestão de leilão para cadastro, avaliação, reavaliação, depreciação automática, loteamento e prestação de contas completo."
+          aside={<SigelMock className="mx-auto max-w-[560px]" />}
+        >
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <NavLink href={contactHref} className={buttonClass("primary")}>
+              Solicitar demonstração
+              <Arrow />
+            </NavLink>
+            <a
+              href={site.sigelLoginHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonClass("ghost-dark")}
+            >
+              <Icon name="lock" size={16} />
+              Acesso de usuário
+              <span className="sr-only">(abre em nova aba)</span>
+            </a>
+          </div>
+          <SigelMock className="mt-12 lg:hidden" />
+        </PageHero>
+
+        <section aria-labelledby="ciclo-titulo" className="bg-white py-24 sm:py-32">
+          <div className="container-site">
+            <SectionHeader
+              id="ciclo-titulo"
+              eyebrow="Como funciona"
+              title="Todo o ciclo do bem, em um só lugar."
+              description="Do cadastro à prestação de contas, cada etapa do leilão acontece no SIGEL — sem planilhas paralelas."
+            />
+
+            <ol className="relative mt-16 grid gap-9 sm:grid-cols-2 lg:grid-cols-6 lg:gap-6">
+              {/* Linha que liga as etapas no desktop, como as barras do logo */}
+              <span aria-hidden className="absolute left-[11px] top-3 hidden h-[2px] w-[calc(100%-22px)] bg-line lg:block" />
+              {etapas.map((etapa, i) => {
+                const last = i === etapas.length - 1;
+                return (
+                  <Reveal
+                    as="li"
+                    key={etapa.nome}
+                    delay={i * 60}
+                    className={`relative flex gap-4 lg:flex-col lg:gap-5 ${
+                      // No mobile, uma linha vertical liga cada ponto ao próximo.
+                      last
+                        ? ""
+                        : "before:absolute before:left-[11px] before:top-7 before:-bottom-9 before:w-[2px] before:bg-line sm:before:hidden"
+                    }`}
+                  >
+                    <span
+                      aria-hidden
+                      className={`relative z-10 mt-0.5 h-6 w-6 shrink-0 rounded-full border-[5px] border-white ring-2 lg:mt-0 ${
+                        last ? "bg-mint ring-mint" : "bg-ink ring-ink/15"
+                      }`}
+                    />
+                    <div>
+                      <p className="font-mono text-xs tracking-[0.14em] text-ink/40">
+                        {String(i + 1).padStart(2, "0")}
+                      </p>
+                      <p className="mt-1 font-display text-lg font-bold leading-snug tracking-tight text-ink">
+                        {etapa.nome}
+                      </p>
+                      <p className="mt-1.5 max-w-[220px] text-sm leading-relaxed text-ink/60">{etapa.texto}</p>
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </ol>
           </div>
         </section>
 
-        {/* O que é */}
-        <section className="py-20 sm:py-24">
+        <section aria-labelledby="recursos-titulo" className="bg-paper pb-16 pt-24 sm:pt-32">
           <div className="container-site">
-            <ScrollReveal className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-[#03152F] sm:text-4xl">
-                O que o SIGEL entrega
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-[#03152F]/65 sm:text-lg">
-                Uma plataforma completa e madura, pensada para os desafios reais da
-                administração pública.
-              </p>
-            </ScrollReveal>
+            <SectionHeader
+              id="recursos-titulo"
+              eyebrow="O que o SIGEL entrega"
+              title="Uma plataforma completa e madura."
+              description="Pensada para os desafios reais da administração pública."
+            />
 
-            <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((item, i) => (
-                <ScrollReveal key={item.title} delay={i * 0.06}>
-                  <li>
-                    <article className="group h-full rounded-[16px] border border-[#E5E7EB] bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                      <div className="mb-5">{item.icon}</div>
-                      <h3 className="text-lg font-bold text-[#03152F]">{item.title}</h3>
-                      <p className="mt-3 text-sm leading-relaxed text-[#03152F]/60">
-                        {item.description}
-                      </p>
-                    </article>
-                  </li>
-                </ScrollReveal>
+            <ul className="mt-14 grid gap-px overflow-hidden rounded-[28px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+              {features.map((f, i) => (
+                <Reveal as="li" key={f.title} delay={i * 50} className="bg-white p-8 sm:p-10">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-paper text-ink ring-1 ring-line [--icon-accent:var(--color-mint-ink)]">
+                    <Icon name={f.icon} />
+                  </span>
+                  <h3 className="mt-6 font-display text-xl font-bold tracking-tight text-ink">{f.title}</h3>
+                  <p className="mt-3 text-[15px] leading-relaxed text-ink/65">{f.description}</p>
+                </Reveal>
               ))}
             </ul>
+
+            <Reveal className="mt-10 flex flex-col items-start gap-4 rounded-[24px] border border-line bg-white p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+              <p className="font-display text-xl font-bold tracking-tight text-ink">
+                Sua prefeitura já usa o SIGEL?
+              </p>
+              <a
+                href={site.sigelLoginHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonClass("dark")}
+              >
+                Entrar no sistema
+                <Arrow />
+                <span className="sr-only">(abre em nova aba)</span>
+              </a>
+            </Reveal>
           </div>
         </section>
 
-        <ContactSection />
+        <ContactSection flush />
       </main>
       <Footer />
     </>

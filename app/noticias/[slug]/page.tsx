@@ -1,6 +1,8 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { ScrollReveal } from "@/components/ScrollReveal";
+import { PageHero } from "@/components/PageHero";
+import { Reveal } from "@/components/Reveal";
+import { Arrow, buttonClass } from "@/components/ui";
 import { getNoticia, noticias, type NoticiaBloco, type NoticiaMidia } from "@/lib/noticias";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -33,21 +35,53 @@ export async function generateMetadata({
   };
 }
 
-function Midia({ midia, priority = false }: { midia: NoticiaMidia; priority?: boolean }) {
+/*
+ * Fotos retrato viram recortes em proporção fixa para não dominarem o texto;
+ * imagens horizontais (como o GIF) mantêm o tamanho natural.
+ */
+type Formato = "capa" | "corpo" | "galeria";
+
+const recorte: Record<Formato, string> = {
+  capa: "aspect-[16/9]",
+  corpo: "aspect-[3/2]",
+  galeria: "aspect-[4/5]",
+};
+
+function Midia({
+  midia,
+  formato = "corpo",
+  priority = false,
+}: {
+  midia: NoticiaMidia;
+  formato?: Formato;
+  priority?: boolean;
+}) {
+  const retrato = midia.altura > midia.largura;
   return (
     <figure>
-      <div className="overflow-hidden rounded-[16px] bg-[#03152F]/5">
-        <Image
-          src={midia.src}
-          alt={midia.alt}
-          width={midia.largura}
-          height={midia.altura}
-          priority={priority}
-          className="h-auto w-full"
-          sizes="(max-width: 768px) 100vw, 768px"
-        />
+      <div className={`relative overflow-hidden rounded-[22px] bg-ink/5 ${retrato ? recorte[formato] : ""}`}>
+        {retrato ? (
+          <Image
+            src={midia.src}
+            alt={midia.alt}
+            fill
+            priority={priority}
+            className="object-cover object-[50%_25%]"
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
+        ) : (
+          <Image
+            src={midia.src}
+            alt={midia.alt}
+            width={midia.largura}
+            height={midia.altura}
+            priority={priority}
+            className="h-auto w-full"
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
+        )}
       </div>
-      <figcaption className="mt-3 border-l-2 border-[#8FD18F] pl-3 text-sm leading-relaxed text-[#03152F]/60">
+      <figcaption className="mt-3 border-l-2 border-mint pl-3 text-sm leading-relaxed text-ink/60">
         {midia.legenda}
       </figcaption>
     </figure>
@@ -56,18 +90,18 @@ function Midia({ midia, priority = false }: { midia: NoticiaMidia; priority?: bo
 
 function InovaChamada({ titulo, texto }: { titulo: string; texto: string }) {
   return (
-    <aside className="rounded-[16px] border border-[#8FD18F]/40 bg-[#8FD18F]/10 p-6 sm:p-8">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#2f7d3a]">
-        Inova Nexel recomenda
+    <aside className="rounded-[24px] border border-mint/50 bg-mint/10 p-6 sm:p-8">
+      <p className="eyebrow text-mint-ink">Inova Nexel recomenda</p>
+      <p className="mt-4 font-display text-xl font-bold leading-snug tracking-tight text-ink">
+        {titulo}
       </p>
-      <p className="mt-3 text-lg font-bold leading-snug text-[#03152F]">{titulo}</p>
-      <p className="mt-2 text-base leading-relaxed text-[#03152F]/75">{texto}</p>
+      <p className="mt-2 text-base leading-relaxed text-ink/75">{texto}</p>
       <Link
-        href="/"
-        className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#03152F] underline decoration-[#8FD18F] decoration-2 underline-offset-4 transition-colors hover:text-[#2f7d3a]"
+        href="/sistemas"
+        className="group mt-5 inline-flex items-center gap-2 rounded text-sm font-semibold text-ink underline decoration-mint decoration-2 underline-offset-4 transition-colors duration-200 hover:text-mint-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
       >
-        Conheça as soluções da Inova Nexel
-        <span aria-hidden>→</span>
+        Conheça os sistemas da Inova Nexel
+        <Arrow />
       </Link>
     </aside>
   );
@@ -79,13 +113,13 @@ function Bloco({ bloco }: { bloco: NoticiaBloco }) {
       return <p>{bloco.texto}</p>;
     case "subtitulo":
       return (
-        <h2 className="pt-4 text-2xl font-bold tracking-tight text-[#03152F]">
+        <h2 className="pt-4 font-display text-2xl font-bold tracking-tight text-ink sm:text-[1.75rem]">
           {bloco.texto}
         </h2>
       );
     case "citacao":
       return (
-        <blockquote className="border-l-4 border-[#8FD18F] py-1 pl-6 text-xl font-semibold leading-snug text-[#03152F] sm:text-2xl">
+        <blockquote className="border-l-4 border-mint py-1 pl-6 font-display text-xl font-bold leading-snug tracking-tight text-ink sm:text-2xl">
           {bloco.texto}
         </blockquote>
       );
@@ -95,7 +129,7 @@ function Bloco({ bloco }: { bloco: NoticiaBloco }) {
       return (
         <div className="grid gap-6 sm:grid-cols-2">
           {bloco.midias.map((m) => (
-            <Midia key={m.src} midia={m} />
+            <Midia key={m.src} midia={m} formato="galeria" />
           ))}
         </div>
       );
@@ -105,12 +139,12 @@ function Bloco({ bloco }: { bloco: NoticiaBloco }) {
           {bloco.itens.map((item) => (
             <div
               key={item.rotulo}
-              className="flex flex-col-reverse rounded-[16px] border border-[#E5E7EB] bg-white p-4 text-center sm:p-6"
+              className="flex flex-col-reverse rounded-[20px] border border-line bg-white p-4 text-center sm:p-6"
             >
-              <dt className="mt-1 text-xs leading-snug text-[#03152F]/60 sm:text-sm">
-                {item.rotulo}
-              </dt>
-              <dd className="text-3xl font-bold text-[#03152F] sm:text-4xl">{item.valor}</dd>
+              <dt className="mt-1 text-xs leading-snug text-ink/60 sm:text-sm">{item.rotulo}</dt>
+              <dd className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-5xl">
+                {item.valor}
+              </dd>
             </div>
           ))}
         </dl>
@@ -130,116 +164,105 @@ export default async function NoticiaPage({ params }: PageProps<"/noticias/[slug
   return (
     <>
       <Header />
-      <main className="bg-[#F8FAFC] pb-20 pt-[90px] sm:pb-24">
-        <article className="container-site">
-          <header className="mx-auto max-w-3xl pt-10 sm:pt-14">
-            <nav aria-label="Trilha de navegação" className="text-sm text-[#03152F]/55">
-              <Link href="/" className="hover:text-[#03152F]">
-                Início
-              </Link>
-              <span aria-hidden className="mx-2">/</span>
-              <Link href="/#noticias" className="hover:text-[#03152F]">
-                Notícias
-              </Link>
-            </nav>
+      <main id="conteudo" tabIndex={-1} className="outline-none">
+        <PageHero
+          crumbs={[
+            { label: "Início", href: "/" },
+            { label: "Notícias", href: "/#noticias" },
+            { label: noticia.categoria },
+          ]}
+          eyebrow={noticia.categoria}
+          title={noticia.titulo}
+          compact
+          description={
+            <>
+              <p>{noticia.resumo}</p>
+              <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-white/55">
+                <span>
+                  Por <span className="font-semibold text-white/85">Redação Inova Nexel</span>
+                </span>
+                <span aria-hidden>·</span>
+                <time dateTime={noticia.dataISO}>{noticia.data}</time>
+              </p>
+            </>
+          }
+        />
 
-            <div className="mt-6 flex items-center gap-3">
-              <span className="inline-block rounded-full bg-[#8FD18F]/15 px-3 py-1 text-xs font-semibold text-[#03152F]">
-                {noticia.categoria}
-              </span>
-              <time dateTime={noticia.dataISO} className="text-xs font-medium text-[#03152F]/50">
-                {noticia.data}
-              </time>
+        <article className="bg-paper pb-24 sm:pb-32">
+          <div className="container-site">
+            <div className="mx-auto max-w-3xl -translate-y-10 sm:-translate-y-14">
+              <Midia midia={noticia.capa} formato="capa" priority />
             </div>
 
-            <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-[#03152F] sm:text-4xl lg:text-5xl">
-              {noticia.titulo}
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-[#03152F]/70 sm:text-xl">
-              {noticia.resumo}
-            </p>
-            <p className="mt-6 border-t border-[#E5E7EB] pt-4 text-sm text-[#03152F]/55">
-              Por <span className="font-semibold text-[#03152F]">Redação Inova Nexel</span>
-            </p>
-          </header>
+            <div className="mx-auto max-w-[68ch] space-y-7 text-[18px] leading-[1.8] text-ink/80">
+              {noticia.corpo.map((bloco, i) => (
+                <Bloco key={i} bloco={bloco} />
+              ))}
+            </div>
 
-          <div className="mx-auto mt-10 max-w-3xl">
-            <Midia midia={noticia.capa} priority />
-          </div>
-
-          <div className="mx-auto mt-12 max-w-3xl space-y-7 text-[17px] leading-[1.8] text-[#03152F]/80">
-            {noticia.corpo.map((bloco, i) => (
-              <Bloco key={i} bloco={bloco} />
-            ))}
-          </div>
-
-          <ScrollReveal className="mx-auto mt-16 max-w-3xl">
-            <section
-              aria-labelledby="inova-cta"
-              className="relative overflow-hidden rounded-[20px] bg-gradient-to-br from-[#03152F] via-[#08244A] to-[#0B2E5A] p-8 text-white sm:p-12"
-            >
-              <div
-                className="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_20%,rgba(143,209,143,0.18),transparent_55%)]"
-                aria-hidden
-              />
-              <div className="relative">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#8FD18F]">
-                  Uma notícia trazida por Inova Nexel
-                </p>
-                <h2 id="inova-cta" className="mt-4 text-2xl font-bold leading-tight sm:text-3xl">
+            <Reveal className="mx-auto mt-20 max-w-3xl">
+              <section
+                aria-labelledby="inova-cta"
+                className="relative isolate overflow-hidden rounded-[28px] bg-ink p-8 text-white sm:p-12"
+              >
+                <div aria-hidden className="absolute inset-0 -z-10">
+                  <div className="bg-grid absolute inset-0" />
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_20%,rgba(143,209,143,0.18),transparent_55%)]" />
+                </div>
+                <p className="eyebrow text-mint">Uma notícia trazida por Inova Nexel</p>
+                <h2
+                  id="inova-cta"
+                  className="mt-5 font-display text-2xl font-bold leading-tight tracking-tight text-balance sm:text-3xl"
+                >
                   Quem conta boas histórias também constrói grandes resultados.
                 </h2>
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-[#D9E5F4]">
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-mist/80">
                   A Inova Nexel é especialista em GovTech: criamos sistemas que tornam a
                   gestão pública mais inteligente, transparente e conectada com a
                   sociedade. Se a sua gestão quer ir mais longe, a gente entra no ringue
                   com você.
                 </p>
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-                  <Link
-                    href="/"
-                    className="inline-flex items-center justify-center rounded-[10px] bg-[#8FD18F] px-7 py-3.5 text-sm font-semibold text-[#03152F] transition-colors hover:bg-[#7bc47d]"
-                  >
-                    Conheça a Inova Nexel
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <Link href="/sistemas" className={buttonClass("primary")}>
+                    Conheça os sistemas
+                    <Arrow />
                   </Link>
-                  <Link
-                    href="/#contato"
-                    className="inline-flex items-center justify-center gap-2 rounded-[10px] border border-white px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
-                  >
+                  <Link href="/#contato" className={buttonClass("ghost-dark")}>
                     Fale com um especialista
-                    <span aria-hidden>→</span>
                   </Link>
                 </div>
-              </div>
-            </section>
-          </ScrollReveal>
+              </section>
+            </Reveal>
 
-          {outras.length > 0 && (
-            <section className="mx-auto mt-16 max-w-3xl">
-              <h2 className="text-xl font-bold text-[#03152F]">Leia também</h2>
-              <ul className="mt-6 space-y-4">
-                {outras.map((n) => (
-                  <li key={n.slug}>
-                    <Link
-                      href={`/noticias/${n.slug}`}
-                      className="font-semibold text-[#03152F] hover:underline"
-                    >
-                      {n.titulo}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+            {outras.length > 0 && (
+              <section aria-labelledby="leia-tambem" className="mx-auto mt-16 max-w-3xl">
+                <h2 id="leia-tambem" className="font-display text-xl font-bold text-ink">
+                  Leia também
+                </h2>
+                <ul className="mt-6 divide-y divide-line border-y border-line">
+                  {outras.map((n) => (
+                    <li key={n.slug}>
+                      <Link
+                        href={`/noticias/${n.slug}`}
+                        className="group flex items-center justify-between gap-4 py-5 font-semibold text-ink"
+                      >
+                        {n.titulo}
+                        <Arrow />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-          <div className="mx-auto mt-12 max-w-3xl">
-            <Link
-              href="/#noticias"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#03152F] hover:text-[#2f7d3a]"
-            >
-              <span aria-hidden>←</span>
-              Voltar para notícias
-            </Link>
+            <div className="mx-auto mt-12 max-w-3xl">
+              <Link href="/#noticias" className={buttonClass("ghost", "sm")}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M19 12H5M11 6l-6 6 6 6" />
+                </svg>
+                Voltar para notícias
+              </Link>
+            </div>
           </div>
         </article>
       </main>

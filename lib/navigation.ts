@@ -3,19 +3,13 @@ export type NavItem = {
   href: string;
 };
 
-export const sectionIds = {
-  home: "home",
-  solucoes: "solucoes",
-  noticias: "noticias",
-  contato: "contato",
-} as const;
-
 export const mainNav: NavItem[] = [
   { label: "Início", href: "/#home" },
   { label: "Quem Somos", href: "/quem-somos" },
   { label: "Sistemas", href: "/sistemas" },
+  { label: "Cursos", href: "/cursos" },
+  { label: "Soluções", href: "/#solucoes" },
   { label: "Notícias", href: "/#noticias" },
-  { label: "Fale Conosco", href: "/#contato" },
 ];
 
 export const contactHref = "/#contato";
@@ -23,9 +17,16 @@ export const contactLabel = "Fale Conosco";
 
 export const footerEmpresaLinks: NavItem[] = [
   { label: "Quem Somos", href: "/quem-somos" },
-  { label: "Sistemas", href: "/sistemas" },
   { label: "Notícias", href: "/#noticias" },
   { label: "Fale Conosco", href: "/#contato" },
+];
+
+export const footerSolucoesLinks: NavItem[] = [
+  { label: "Sistemas", href: "/sistemas" },
+  { label: "SIGEL", href: "/sigel" },
+  { label: "Cursos", href: "/cursos" },
+  { label: "Transformação Digital", href: "/#solucoes" },
+  { label: "Consultoria", href: "/#solucoes" },
 ];
 
 export function isNavActive(pathname: string, href: string): boolean {
