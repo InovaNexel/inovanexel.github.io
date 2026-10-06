@@ -9,6 +9,7 @@ type Solution = {
   icon: IconName;
   /** Quando presente, a linha vira link para a página correspondente. */
   href?: string;
+  cta?: string;
 };
 
 const solutions: Solution[] = [
@@ -18,6 +19,7 @@ const solutions: Solution[] = [
       "Soluções completas de sistemas próprios, para governos e prefeituras, modernizando a gestão pública com tecnologia de ponta.",
     icon: "monitor",
     href: "/sistemas",
+    cta: "Ver sistemas",
   },
   {
     title: "Transformação Digital",
@@ -46,34 +48,40 @@ const solutions: Solution[] = [
   {
     title: "Capacitação & Educação",
     description:
-      "Programas de formação para equipes públicas em competências digitais e inovação.",
+      "Trilhas de cursos em gestão pública, inovação, GovTech e negócios, com certificado e inscrição direto pelo WhatsApp.",
     icon: "education",
+    href: "/cursos",
+    cta: "Ver cursos",
   },
 ];
 
 function Row({ item, index }: { item: Solution; index: number }) {
+  // Mobile: número + ícone + título numa linha, descrição embaixo em largura total.
   const body = (
     <>
-      <span className="font-mono text-xs font-medium tracking-[0.14em] text-ink/40 sm:pt-1.5">
+      <span className="font-mono text-xs font-medium tracking-[0.14em] text-ink/40 sm:pt-3">
         {String(index + 1).padStart(2, "0")}
       </span>
       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-paper text-ink ring-1 ring-line [--icon-accent:var(--color-mint-ink)]">
         <Icon name={item.icon} size={22} />
       </span>
-      <span className="min-w-0 flex-1">
-        <span className="flex items-center gap-3 font-display text-xl font-bold tracking-tight text-ink sm:text-2xl">
-          {item.title}
-          {item.href && <Arrow className="text-mint-ink" />}
-        </span>
-        <span className="mt-2 block max-w-xl text-[15px] leading-relaxed text-ink/65">
-          {item.description}
-        </span>
+      <span className="font-display text-xl font-bold tracking-tight text-ink sm:self-center sm:text-2xl">
+        {item.title}
+      </span>
+      <span className="col-span-3 block max-w-xl text-[15px] leading-relaxed text-ink/65 sm:col-span-1 sm:col-start-3 sm:-mt-1">
+        {item.description}
+        {item.href && (
+          <span className="mt-3 flex items-center gap-2 text-sm font-semibold text-mint-ink">
+            {item.cta}
+            <Arrow />
+          </span>
+        )}
       </span>
     </>
   );
 
   const rowClass =
-    "flex flex-col gap-4 py-7 sm:flex-row sm:items-start sm:gap-6";
+    "grid grid-cols-[auto_auto_minmax(0,1fr)] items-center gap-x-4 gap-y-3 py-7 sm:items-start sm:gap-x-6";
 
   return item.href ? (
     <Link

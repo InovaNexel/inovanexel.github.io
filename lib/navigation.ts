@@ -7,6 +7,7 @@ export const mainNav: NavItem[] = [
   { label: "Início", href: "/#home" },
   { label: "Quem Somos", href: "/quem-somos" },
   { label: "Sistemas", href: "/sistemas" },
+  { label: "Cursos", href: "/cursos" },
   { label: "Soluções", href: "/#solucoes" },
   { label: "Notícias", href: "/#noticias" },
 ];
@@ -23,6 +24,7 @@ export const footerEmpresaLinks: NavItem[] = [
 export const footerSolucoesLinks: NavItem[] = [
   { label: "Sistemas", href: "/sistemas" },
   { label: "SIGEL", href: "/sigel" },
+  { label: "Cursos", href: "/cursos" },
   { label: "Transformação Digital", href: "/#solucoes" },
   { label: "Consultoria", href: "/#solucoes" },
 ];
