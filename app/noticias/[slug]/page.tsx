@@ -219,7 +219,7 @@ export default async function NoticiaPage({ params }: PageProps<"/noticias/[slug
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-mist/80">
                   A Inova Nexel é especialista em GovTech: criamos sistemas que tornam a
                   gestão pública mais inteligente, transparente e conectada com a
-                  sociedade. Se a sua gestão quer ir mais longe, a gente entra no ringue
+                  sociedade. Se a sua gestão quer ir mais longe, a gente caminha junto
                   com você.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
